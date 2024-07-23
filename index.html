@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Career Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Football Career Game</h1>
+        <div id="player-info">
+            <p>Age: <span id="age">16</span></p>
+            <p>Money: <span id="money">0</span>€</p>
+            <p>Fame: <span id="fame">0</span></p>
+            <p>Respect: <span id="respect">0</span></p>
+            <p>Seasonal Goal/Assist/Clear: <span id="seasonal-stats">0</span></p>
+            <p>Season: <span id="season">23/24</span></p>
+            <p>Years left in contract: <span id="contract-years">0</span></p>
+            <p>Current player price: <span id="player-price">0</span>$</p>
+            <p>Current Club: <span id="current-club">None</span></p>
+        </div>
+        <div id="nationality-selection">
+            <h2>Choose your nationality:</h2>
+            <button onclick="startGame('Germany')">Germany</button>
+            <button onclick="startGame('Spain')">Spain</button>
+            <button onclick="startGame('Argentina')">Argentina</button>
+        </div>
+        <div id="game-actions" style="display: none;">
+            <button onclick="nextYear()">Next Year</button>
+            <button onclick="extendContract()">Extend Contract</button>
+            <button onclick="newClub()">New Club</button>
+            <button onclick="retire()">Retire</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
