@@ -11,7 +11,9 @@ export function updateCareerDetails(player) {
 
     careerDetails.innerHTML = `
         ${player.age} yrs: ${player.team}<br>
-        Value: ${player.value.toLocaleString()} $
+        Value: ${player.value.toLocaleString()} $<br>
+        Total Goals: ${player.totalGoals} <br>
+        Total Assists: ${player.totalAssists}
     `;
 
     clubHistory.innerHTML = '';
@@ -30,21 +32,47 @@ export function scrollToBottom(elementId) {
 }
 
 export function showCareerSummary(player) {
-    const stats = generateRandomStats();
+    const stats = generateRandomStats(player.origin);
     const careerSummary = `
         <h2>Career Summary</h2>
         <p>Highest Value: ${player.highestValue.toLocaleString()} $</p>
-        <p>Goals: ${stats.goals}</p>
-        <p>Assists: ${stats.assists}</p>
-        <p>Trophies: ${stats.trophies}</p>
+        <p>Total Goals: ${player.totalGoals}</p>
+        <p>Total Assists: ${player.totalAssists}</p>
+        <p>League Titles: ${stats.leagueTitles}</p>
+        <p>International Cups: ${stats.internationalCups}</p>
+        <p>World Cups: ${stats.worldCups}</p>
+        <p>${stats.originCupName}: ${stats.originCups}</p>
     `;
     document.getElementById('page2').innerHTML = careerSummary + '<button onclick="startNewCareer()">Start New Career</button>';
 }
 
-function generateRandomStats() {
+function generateRandomStats(origin) {
+    let originCupName;
+    switch (origin) {
+        case 'europe':
+            originCupName = 'European Cups';
+            break;
+        case 'south-america':
+            originCupName = 'Copa América';
+            break;
+        case 'africa':
+            originCupName = 'Africa Cup';
+            break;
+        case 'asia':
+            originCupName = 'Asia Cup';
+            break;
+        case 'north-america':
+            originCupName = 'Gold Cup';
+            break;
+        default:
+            originCupName = 'Continental Cup';
+    }
+
     return {
-        goals: Math.floor(Math.random() * 500),
-        assists: Math.floor(Math.random() * 300),
-        trophies: Math.floor(Math.random() * 20)
+        leagueTitles: Math.floor(Math.random() * 25),
+        internationalCups: Math.floor(Math.random() * 25),
+        worldCups: Math.floor(Math.random() * 5),
+        originCupName: originCupName,
+        originCups: Math.floor(Math.random() * 5)
     };
 }

@@ -1,7 +1,7 @@
 import { Player } from './player.js';
 import { getRandomTeam } from './teams.js';
 import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary } from './ui.js';
-import { checkInjury } from './utils.js';
+import { checkInjury, getRandomGoals, getRandomAssists } from './utils.js';
 
 let player = new Player();
 
@@ -25,7 +25,7 @@ function startCareer() {
     player.origin = originSelect.value.toLowerCase();
 
     player.team = getRandomTeam();
-    player.addClubHistory(player.age, player.team, player.value);
+    player.addClubHistory(player.age, player.team, player.value, 0, 0);
 
     if (!player.team) {
         alert("Error: No team found for the selected origin.");
@@ -45,7 +45,11 @@ function stayTeam() {
         return;
     }
     player.incrementAge();
-    player.addClubHistory(player.age, player.team, player.value);
+    const goals = getRandomGoals();
+    const assists = getRandomAssists();
+    player.addClubHistory(player.age, player.team, player.value, goals, assists);
+    player.totalGoals += goals;
+    player.totalAssists += assists;
     updateCareerDetails(player);
     updateRandomTeamButtons(player);
     scrollToBottom('clubHistory');
@@ -58,13 +62,17 @@ function chooseTeam(buttonId) {
     player.incrementAge();
     const chosenTeam = player.nextTeams[buttonId === 'team1' ? 0 : 1];
     player.team = chosenTeam;
-    player.addClubHistory(player.age, player.team, player.value);
+    const goals = getRandomGoals();
+    const assists = getRandomAssists();
+    player.addClubHistory(player.age, player.team, player.value, goals, assists);
+    player.totalGoals += goals;
+    player.totalAssists += assists;
     updateCareerDetails(player);
     updateRandomTeamButtons(player);
     scrollToBottom('clubHistory');
 }
 
-function startNewCareer() {
+export function startNewCareer() {
     player = new Player();
     document.getElementById('page1').style.display = 'block';
     document.getElementById('page2').style.display = 'none';
@@ -74,3 +82,6 @@ function startNewCareer() {
     document.getElementById('team1').addEventListener('click', () => chooseTeam('team1'));
     document.getElementById('team2').addEventListener('click', () => chooseTeam('team2'));
 }
+
+// Make startNewCareer accessible globally
+window.startNewCareer = startNewCareer;

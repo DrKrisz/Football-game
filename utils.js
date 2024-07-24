@@ -21,3 +21,11 @@ export function getRandomHighValueIncrease() {
 export function getRandomHighValueDecrease() {
     return 50000000 + Math.floor(Math.random() * 51000001); // Random value between 50 and 100 million
 }
+
+export function getRandomGoals() {
+    return Math.floor(Math.random() * 61); // Random goals between 0 and 60
+}
+
+export function getRandomAssists() {
+    return Math.floor(Math.random() * 61); // Random assists between 0 and 60
+}

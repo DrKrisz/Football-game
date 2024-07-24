@@ -10,6 +10,8 @@ export class Player {
         this.value = 100000;
         this.prevValue = 100000;
         this.highestValue = 100000;
+        this.totalGoals = 0;
+        this.totalAssists = 0;
         this.clubHistory = [];
         this.nextTeams = [];
         this.retired = false;
@@ -49,9 +51,9 @@ export class Player {
         }
     }
 
-    addClubHistory(age, team, value) {
+    addClubHistory(age, team, value, goals, assists) {
         const p = document.createElement('p');
-        p.innerText = `${age} yrs: ${team} - ${value.toLocaleString()} $`;
+        p.innerText = `${age} yrs: ${team} - ${value.toLocaleString()} $ - ${goals} goals - ${assists} assists`;
         if (value > this.prevValue) {
             p.style.color = 'green';
         } else if (value < this.prevValue) {
