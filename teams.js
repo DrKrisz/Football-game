@@ -3,7 +3,7 @@ export const teams = {
         "Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton & Hove Albion", "Burnley",
         "Chelsea", "Crystal Palace", "Everton", "Fulham", "Liverpool", "Luton Town",
         "Manchester City", "Manchester United", "Newcastle United", "Nottingham Forest", "Sheffield United",
-        "Tottenham Hotspur", "West Ham United", "Wolverhampton Wanderers"
+        "Tottenham Hotspur", "West Ham United", "Wolverhampton"
     ],
     spain: [
         "Alavés", "Athletic Bilbao", "Atlético Madrid", "Barcelona", "Cádiz", "Celta Vigo",

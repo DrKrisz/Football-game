@@ -1,6 +1,7 @@
 import { showCareerSummary } from './ui.js';
 
 export function checkInjury(player) {
+    console.log('Checking for injury...');
     if (Math.random() < 0.01) { // 1% chance
         player.retired = true;
         alert("You got injured and have to retire early.");

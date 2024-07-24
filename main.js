@@ -13,6 +13,7 @@ document.getElementById('team2').addEventListener('click', () => chooseTeam('tea
 const originalPage2Content = document.getElementById('page2').innerHTML;
 
 function startCareer() {
+    console.log('Starting career...');
     const positionSelect = document.getElementById('position');
     const originSelect = document.getElementById('origin');
 
@@ -25,6 +26,7 @@ function startCareer() {
     player.origin = originSelect.value.toLowerCase();
 
     player.team = getRandomTeam();
+    console.log(`Initial team assigned: ${player.team}`);
     player.addClubHistory(player.age, player.team, player.value, 0, 0);
 
     if (!player.team) {
@@ -41,6 +43,7 @@ function startCareer() {
 }
 
 function stayTeam() {
+    console.log('Staying with the team...');
     if (checkInjury(player)) {
         return;
     }
@@ -50,29 +53,40 @@ function stayTeam() {
     player.addClubHistory(player.age, player.team, player.value, goals, assists);
     player.totalGoals += goals;
     player.totalAssists += assists;
+    if (!document.getElementById('careerDetails') || !document.getElementById('clubHistory')) {
+        console.log('Career summary already shown, skipping updates.');
+        return;
+    }
     updateCareerDetails(player);
     updateRandomTeamButtons(player);
     scrollToBottom('clubHistory');
 }
 
 function chooseTeam(buttonId) {
+    console.log(`Choosing new team from button: ${buttonId}`);
     if (checkInjury(player)) {
         return;
     }
     player.incrementAge();
     const chosenTeam = player.nextTeams[buttonId === 'team1' ? 0 : 1];
     player.team = chosenTeam;
+    console.log(`New team chosen: ${player.team}`);
     const goals = getRandomGoals();
     const assists = getRandomAssists();
     player.addClubHistory(player.age, player.team, player.value, goals, assists);
     player.totalGoals += goals;
     player.totalAssists += assists;
+    if (!document.getElementById('careerDetails') || !document.getElementById('clubHistory')) {
+        console.log('Career summary already shown, skipping updates.');
+        return;
+    }
     updateCareerDetails(player);
     updateRandomTeamButtons(player);
     scrollToBottom('clubHistory');
 }
 
 export function startNewCareer() {
+    console.log('Starting new career...');
     player = new Player();
     document.getElementById('page1').style.display = 'block';
     document.getElementById('page2').style.display = 'none';
