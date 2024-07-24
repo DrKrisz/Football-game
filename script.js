@@ -3,23 +3,64 @@ document.getElementById('stayTeam').addEventListener('click', stayTeam);
 document.getElementById('team1').addEventListener('click', () => chooseTeam('team1'));
 document.getElementById('team2').addEventListener('click', () => chooseTeam('team2'));
 
-const teams = [
-    "FC Barcelona", "Real Madrid", "Paris Saint-Germain", "Bayern Munich", "Manchester City",
-    "Boca Juniors", "River Plate", "Flamengo", "Palmeiras", "Santos",
-    "Al Ahly", "Zamalek", "Esperance Sportive de Tunis", "TP Mazembe", "Mamelodi Sundowns",
-    "Al Hilal", "Urawa Red Diamonds", "Guangzhou Evergrande", "Al Sadd", "Persepolis",
-    "LA Galaxy", "New York City FC", "Toronto FC", "Club America", "Seattle Sounders"
-];
+const teams = {
+    england: [
+        "Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton & Hove Albion", "Burnley",
+        "Chelsea", "Crystal Palace", "Everton", "Fulham", "Liverpool", "Luton Town",
+        "Manchester City", "Manchester United", "Newcastle United", "Nottingham Forest", "Sheffield United",
+        "Tottenham Hotspur", "West Ham United", "Wolverhampton Wanderers"
+    ],
+    spain: [
+        "Alavés", "Athletic Bilbao", "Atlético Madrid", "Barcelona", "Cádiz", "Celta Vigo",
+        "Elche", "Espanyol", "Getafe", "Girona", "Granada", "Mallorca", "Osasuna", "Rayo Vallecano",
+        "Real Betis", "Real Madrid", "Real Sociedad", "Sevilla", "Valencia", "Villarreal"
+    ],
+    italy: [
+        "Atalanta", "Bologna", "Cagliari", "Empoli", "Fiorentina", "Genoa", "Inter Milan", "Juventus",
+        "Lazio", "Lecce", "Milan", "Monza", "Napoli", "Roma", "Salernitana", "Sampdoria", "Sassuolo",
+        "Torino", "Udinese", "Verona"
+    ],
+    germany: [
+        "Augsburg", "Bayer Leverkusen", "Bayern Munich", "Bochum", "Borussia Dortmund",
+        "Borussia Mönchengladbach", "Darmstadt", "Eintracht Frankfurt", "Freiburg", "Heidenheim",
+        "Hoffenheim", "Köln", "Mainz", "RB Leipzig", "Stuttgart", "Union Berlin", "Werder Bremen", "Wolfsburg"
+    ],
+    france: [
+        "Angers", "Ajaccio", "Auxerre", "Brest", "Clermont", "Lens", "Lille", "Lorient",
+        "Lyon", "Marseille", "Monaco", "Montpellier", "Nantes", "Nice", "PSG", "Reims", "Rennes",
+        "Strasbourg", "Toulouse", "Troyes"
+    ],
+    norway: [
+        "Aalesund", "Bodø/Glimt", "Brann", "HamKam", "Haugesund", "Lillestrøm", "Molde",
+        "Odd", "Rosenborg", "Sandefjord", "Sarpsborg 08", "Stabæk", "Strømsgodset", "Tromsø",
+        "Vålerenga", "Viking"
+    ],
+    hungary: [
+        "Budapest Honvéd", "Debrecen", "Diósgyőr", "Fehérvár", "Ferencváros", "Kisvárda", "Kecskemét",
+        "Mezőkövesd", "MTK Budapest", "Paks", "Puskás Akadémia", "Újpest", "Zalaegerszeg"
+    ]
+};
+
+let allTeams = [];
+for (let league in teams) {
+    allTeams = allTeams.concat(teams[league]);
+}
 
 let player = {
     age: 16,
     team: '',
     position: '',
     origin: '',
-    value: 10000000,
+    value: 100000,
+    prevValue: 100000,
+    highestValue: 100000,
     clubHistory: [],
-    nextTeams: []
+    nextTeams: [],
+    retired: false
 };
+
+// Store the original content of page2 to restore later
+const originalPage2Content = document.getElementById('page2').innerHTML;
 
 function startCareer() {
     const positionSelect = document.getElementById('position');
@@ -34,7 +75,7 @@ function startCareer() {
     player.origin = originSelect.value.toLowerCase();
     
     player.team = getRandomTeam();
-    player.clubHistory.push(`${player.age} yrs: ${player.team}`);
+    player.clubHistory.push(createClubHistoryItem(player.age, player.team, player.value, player.prevValue));
 
     if (!player.team) {
         alert("Error: No team found for the selected origin.");
@@ -46,6 +87,7 @@ function startCareer() {
 
     updateCareerDetails();
     updateRandomTeamButtons();
+    scrollToBottom('clubHistory');
 }
 
 function updateCareerDetails() {
@@ -59,41 +101,139 @@ function updateCareerDetails() {
 
     careerDetails.innerHTML = `
         ${player.age} yrs: ${player.team}<br>
-        Value: ${player.value.toLocaleString()} $<br>
-        Goal: ${player.position !== 'goalkeeper' ? 'Yes' : 'N/A'}<br>
-        Assist: ${player.position !== 'goalkeeper' ? 'Yes' : 'N/A'}<br>
-        Clear: ${player.position === 'goalkeeper' ? 'Yes' : 'N/A'}
+        Value: ${player.value.toLocaleString()} $
     `;
 
-    clubHistory.innerHTML = player.clubHistory.join('<br>');
+    clubHistory.innerHTML = '';
+    player.clubHistory.forEach(item => clubHistory.appendChild(item));
 }
 
 function stayTeam() {
+    if (checkInjury()) {
+        return;
+    }
     incrementAge();
-    player.clubHistory.push(`${player.age} yrs: ${player.team}`);
+    player.clubHistory.push(createClubHistoryItem(player.age, player.team, player.value, player.prevValue));
     updateCareerDetails();
     updateRandomTeamButtons();
+    scrollToBottom('clubHistory');
 }
 
 function chooseTeam(buttonId) {
+    if (checkInjury()) {
+        return;
+    }
     incrementAge();
     const chosenTeam = player.nextTeams[buttonId === 'team1' ? 0 : 1];
     player.team = chosenTeam;
-    player.clubHistory.push(`${player.age} yrs: ${player.team}`);
+    player.clubHistory.push(createClubHistoryItem(player.age, player.team, player.value, player.prevValue));
     updateCareerDetails();
     updateRandomTeamButtons();
+    scrollToBottom('clubHistory');
 }
 
 function incrementAge() {
     player.age++;
+    player.prevValue = player.value;
+    
+    if (player.age >= 24 && player.age <= 27) {
+        if (Math.random() < 0.20) { // 20% chance
+            player.value += getRandomHighValueIncrease();
+        } else {
+            player.value += getRandomValueChange();
+        }
+    } else if (player.age <= 30) {
+        player.value += getRandomValueChange();
+    } else if (player.age > 34 && player.value > 100000000) {
+        if (Math.random() < 0.75) { // 75% chance
+            player.value -= getRandomHighValueDecrease();
+            if (player.value < 30000000) player.value = 30000000; // Ensure value doesn't go below 30 million
+        } else {
+            player.value -= getRandomValueChange();
+            if (player.value < 0) player.value = 0; // Prevent negative value
+        }
+    } else {
+        player.value -= getRandomValueChange();
+        if (player.value < 0) player.value = 0; // Prevent negative value
+    }
+
+    if (player.value > player.highestValue) {
+        player.highestValue = player.value;
+    }
+
     if (player.age > 40) {
-        alert("Your career is over!");
-        resetGame();
+        retirePlayer();
     }
 }
 
+function checkInjury() {
+    if (Math.random() < 0.01) { // 1% chance
+        player.retired = true;
+        alert("You got injured and have to retire early.");
+        retirePlayer();
+        return true;
+    }
+    return false;
+}
+
+function retirePlayer() {
+    const stats = generateRandomStats();
+    const careerSummary = `
+        <h2>Career Summary</h2>
+        <p>Highest Value: ${player.highestValue.toLocaleString()} $</p>
+        <p>Goals: ${stats.goals}</p>
+        <p>Assists: ${stats.assists}</p>
+        <p>Trophies: ${stats.trophies}</p>
+    `;
+    document.getElementById('page2').innerHTML = careerSummary + '<button onclick="startNewCareer()">Start New Career</button>';
+}
+
+function generateRandomStats() {
+    return {
+        goals: Math.floor(Math.random() * 500),
+        assists: Math.floor(Math.random() * 300),
+        trophies: Math.floor(Math.random() * 20)
+    };
+}
+
+function startNewCareer() {
+    player.age = 16;
+    player.team = '';
+    player.position = '';
+    player.origin = '';
+    player.value = 100000;
+    player.prevValue = 100000;
+    player.highestValue = 100000;
+    player.clubHistory = [];
+    player.nextTeams = [];
+    player.retired = false;
+
+    document.getElementById('page1').style.display = 'block';
+    document.getElementById('page2').style.display = 'none';
+    
+    // Restore the original content of page2
+    document.getElementById('page2').innerHTML = originalPage2Content;
+
+    // Reattach event listeners to the new buttons
+    document.getElementById('stayTeam').addEventListener('click', stayTeam);
+    document.getElementById('team1').addEventListener('click', () => chooseTeam('team1'));
+    document.getElementById('team2').addEventListener('click', () => chooseTeam('team2'));
+}
+
+function getRandomValueChange() {
+    return Math.floor(Math.random() * 5000001); // Random value between 0 and 5 million
+}
+
+function getRandomHighValueIncrease() {
+    return 50000000 + Math.floor(Math.random() * 51000001); // Random value between 50 and 100 million
+}
+
+function getRandomHighValueDecrease() {
+    return 50000000 + Math.floor(Math.random() * 51000001); // Random value between 50 and 100 million
+}
+
 function getRandomTeam() {
-    return teams[Math.floor(Math.random() * teams.length)];
+    return allTeams[Math.floor(Math.random() * allTeams.length)];
 }
 
 function updateRandomTeamButtons() {
@@ -102,15 +242,18 @@ function updateRandomTeamButtons() {
     document.getElementById('team2').innerText = `Go to ${player.nextTeams[1]}`;
 }
 
-function resetGame() {
-    player.age = 16;
-    player.team = '';
-    player.position = '';
-    player.origin = '';
-    player.value = 10000000;
-    player.clubHistory = [];
-    player.nextTeams = [];
+function createClubHistoryItem(age, team, value, prevValue) {
+    const p = document.createElement('p');
+    p.innerText = `${age} yrs: ${team} - ${value.toLocaleString()} $`;
+    if (value > prevValue) {
+        p.style.color = 'green';
+    } else if (value < prevValue) {
+        p.style.color = 'red';
+    }
+    return p;
+}
 
-    document.getElementById('page1').style.display = 'block';
-    document.getElementById('page2').style.display = 'none';
+function scrollToBottom(elementId) {
+    const element = document.getElementById(elementId);
+    element.scrollTop = element.scrollHeight;
 }

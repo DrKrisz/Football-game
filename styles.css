@@ -7,7 +7,8 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #f4f4f4;
+    background-color: #121212;
+    color: #ffffff;
 }
 
 .page {
@@ -18,6 +19,7 @@ body {
 
 label, select, button {
     margin: 10px;
+    color: #ffffff;
 }
 
 #careerDetails {
@@ -26,8 +28,8 @@ label, select, button {
 
 button {
     padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
+    background-color: #1e88e5;
+    color: #ffffff;
     border: none;
     cursor: pointer;
     width: 200px; /* Fixed width to handle longer names */
@@ -38,5 +40,51 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #1565c0;
+}
+
+select {
+    background-color: #424242;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+label {
+    color: #ffffff;
+}
+#clubHistory {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #424242;
+    border: 1px solid #ffffff;
+    width: 600px;
+    height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease-in-out;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #424242 #ffffff;
+}
+#clubHistory p{
+    /*make gap between yrs - club - value*/
+    margin-right: 10px;
+    white-space: nowrap; /* Prevent text from wrapping */
+    text-overflow: ellipsis; /* Add ellipsis to overflow text */
+}
+
+#page2 h1{
+    margin-bottom: 20px;
+    text-align: center;
+}
+#careerDetails {
+    text-align: center;
+    padding: 10px;
 }
