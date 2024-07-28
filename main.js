@@ -1,6 +1,6 @@
 import { Player } from './player.js';
 import { getRandomTeam } from './teams.js';
-import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary } from './ui.js';
+import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary as uiShowCareerSummary } from './ui.js';
 import { checkInjury, getRandomGoals, getRandomAssists } from './utils.js';
 
 let player = new Player();
@@ -9,6 +9,9 @@ document.getElementById('startCareer').addEventListener('click', startCareer);
 document.getElementById('stayTeam').addEventListener('click', stayTeam);
 document.getElementById('team1').addEventListener('click', () => chooseTeam('team1'));
 document.getElementById('team2').addEventListener('click', () => chooseTeam('team2'));
+document.getElementById('restartCareer').addEventListener('click', startNewCareer);
+document.getElementById('retireEarly').addEventListener('click', retireEarly);
+document.getElementById('closePopup').addEventListener('click', closePopup);
 
 const originalPage2Content = document.getElementById('page2').innerHTML;
 
@@ -30,7 +33,7 @@ function startCareer() {
     player.addClubHistory(player.age, player.team, player.value, 0, 0);
 
     if (!player.team) {
-        alert("Error: No team found for the selected origin.");
+        showPopup("Error: No team found for the selected origin.");
         return;
     }
 
@@ -47,6 +50,26 @@ function stayTeam() {
     if (checkInjury(player)) {
         return;
     }
+
+    // 25% chance the club terminates the contract
+    if (Math.random() < 0.25) {
+        let newTeam = getRandomTeam();
+        
+        // Ensure the new team is different from the current team
+        while (newTeam === player.team) {
+            newTeam = getRandomTeam();
+        }
+
+        const newValueRaw = Math.random() < 0.1 ? "Free" : (Math.random() * 100000000).toFixed(2);
+        const newValue = newValueRaw === "Free" ? "Free" : roundToNearestMillion(parseFloat(newValueRaw));
+        showPopup(`The club has terminated the contract with you! They sold you to ${newTeam} for ${newValue}.`);
+        player.team = newTeam;
+
+        if (newValue !== "Free") {
+            player.value = parseFloat(newValue.replace(/,/g, "").replace(" $", ""));
+        }
+    }
+
     player.incrementAge();
     const goals = getRandomGoals();
     const assists = getRandomAssists();
@@ -85,6 +108,11 @@ function chooseTeam(buttonId) {
     scrollToBottom('clubHistory');
 }
 
+function retireEarly() {
+    console.log('Retiring early...');
+    showCareerSummary(player);
+}
+
 export function startNewCareer() {
     console.log('Starting new career...');
     player = new Player();
@@ -95,7 +123,27 @@ export function startNewCareer() {
     document.getElementById('stayTeam').addEventListener('click', stayTeam);
     document.getElementById('team1').addEventListener('click', () => chooseTeam('team1'));
     document.getElementById('team2').addEventListener('click', () => chooseTeam('team2'));
+    document.getElementById('restartCareer').addEventListener('click', startNewCareer);
+    document.getElementById('retireEarly').addEventListener('click', retireEarly);
+    document.getElementById('closePopup').addEventListener('click', closePopup);
 }
 
 // Make startNewCareer accessible globally
 window.startNewCareer = startNewCareer;
+
+function roundToNearestMillion(value) {
+    return `${(Math.round(value / 1000000) * 1000000).toLocaleString()} $`;
+}
+
+export function showPopup(message) {
+    document.getElementById('popupMessage').innerText = message;
+    document.getElementById('popup').style.display = 'flex';
+}
+
+export function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+}
+
+export function showCareerSummary(player) {
+    uiShowCareerSummary(player);
+}

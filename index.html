@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Football Career Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -11,10 +11,28 @@
         <h1>Choose Your Position and Origin</h1>
         <label for="position">Position:</label>
         <select id="position">
-            <option value="forward">Forward</option>
-            <option value="midfielder">Midfielder</option>
-            <option value="defender">Defender</option>
-            <option value="goalkeeper">Goalkeeper</option>
+            <!-- Forward Positions -->
+            <option value="ST">ST (Striker)</option>
+            <option value="CF">CF (Centre Forward)</option>
+            <option value="RW">RW (Right Winger)</option>
+            <option value="LW">LW (Left Winger)</option>
+
+            <!-- Midfield Positions -->
+            <option value="CAM">CAM (Central Attacking Midfielder)</option>
+            <option value="CM">CM (Central Midfielder)</option>
+            <option value="CDM">CDM (Central Defensive Midfielder)</option>
+            <option value="RM">RM (Right Midfielder)</option>
+            <option value="LM">LM (Left Midfielder)</option>
+
+            <!-- Defender Positions -->
+            <option value="CB">CB (Centre Back)</option>
+            <option value="RB">RB (Right Back)</option>
+            <option value="LB">LB (Left Back)</option>
+            <option value="RWB">RWB (Right Wing Back)</option>
+            <option value="LWB">LWB (Left Wing Back)</option>
+
+            <!-- Goalkeeper -->
+            <option value="GK">GK (Goalkeeper)</option>
         </select>
         <label for="origin">Origin:</label>
         <select id="origin">
@@ -34,6 +52,16 @@
         <button id="stayTeam">Stay with the Team</button>
         <button id="team1">Random Team 1</button>
         <button id="team2">Random Team 2</button>
+        <button id="restartCareer">Restart Career</button>
+        <button id="retireEarly">Retire Early</button>
+    </div>
+
+    <!-- Popup Window -->
+    <div id="popup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <span class="close" id="closePopup">&times;</span>
+            <p id="popupMessage"></p>
+        </div>
     </div>
 
     <script type="module" src="main.js"></script>

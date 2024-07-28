@@ -27,119 +27,12 @@ label, select, button {
 }
 
 button {
-    padding: 10px 20px;
-    background-color: #1e88e5;
-    color: #ffffff;
-    border: none;
-    cursor: pointer;
-    width: 200px; /* Fixed width to handle longer names */
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Add ellipsis to overflow text */
-    text-align: center; /* Center align the text */
-}
-
-button:hover {
-    background-color: #1565c0;
-}
-
-select {
-    background-color: #424242;
-    color: #ffffff;
-    border: 1px solid #ffffff;
-}
-
-label {
-    color: #ffffff;
-}
-#clubHistory {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    border-radius: 5px;
     padding: 10px;
-    background-color: #424242;
-    border: 1px solid #ffffff;
-    width: 600px;
-    height: 400px;
-    max-height: 400px;
-    overflow-y: auto;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease-in-out;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: #424242 #ffffff;
-}
-#clubHistory p{
-    /*make gap between yrs - club - value*/
-    margin-right: 10px;
-    white-space: nowrap; /* Prevent text from wrapping */
-    text-overflow: ellipsis; /* Add ellipsis to overflow text */
-}
-#page2 {
-    text-align: center;
-}
-#page2 button {
-    margin: 20px;
-}
-#page2 h1{
-    margin-bottom: 20px;
-    text-align: center;
-}
-#careerDetails {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-/*if the screen with is less then 400px*/
-@media screen and (max-width: 400px) {
-    body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #121212;
-    color: #ffffff;
-}
-
-.page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    text-align: center;
-}
-.page button {
-    margin: 20px;
-
-}
-
-label, select, button {
-    margin: 10px;
-    color: #ffffff;
-}
-
-#careerDetails {
-    margin-bottom: 20px;
-}
-
-button {
-    padding: 10px 20px;
-    margin-left: 13vh;
     background-color: #1e88e5;
     color: #ffffff;
     border: none;
     cursor: pointer;
-    width: 200px; /* Fixed width to handle longer names */
+    width: 100px; /* Fixed width to handle longer names */
     white-space: nowrap; /* Prevent text from wrapping */
     overflow: hidden; /* Hide overflow text */
     text-overflow: ellipsis; /* Add ellipsis to overflow text */
@@ -159,9 +52,9 @@ select {
 label {
     color: #ffffff;
 }
+
 #clubHistory {
-    margin-bottom: 1vh;
-    margin: 10px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -181,21 +74,140 @@ label {
     scrollbar-width: thin;
     scrollbar-color: #424242 #ffffff;
 }
-#clubHistory p{
-    /*make gap between yrs - club - value*/
-    margin-right: 0;
+
+#clubHistory p {
+    margin-right: 10px;
     white-space: nowrap; /* Prevent text from wrapping */
     text-overflow: ellipsis; /* Add ellipsis to overflow text */
-    /*Text size to 10px*/
-    font-size: 12px;
 }
 
-#page2 h1{
+#page2 {
+    text-align: center;
+}
+
+#page2 button {
+    margin: 10px;
+}
+
+#page2 h1 {
     margin-bottom: 20px;
     text-align: center;
 }
+
 #careerDetails {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: 10px;
 }
+
+/* Media query for iPhone 15 Pro dimensions */
+@media screen and (max-width: 393px) and (max-height: 852px) {
+    body {
+        font-size: 14px;
+    }
+
+    button {
+        width: 50%; /* Full width for buttons */
+        margin: 5px;
+    }
+
+    #clubHistory {
+        width: 90%; /* Adjust width to fit within the screen */
+        height: 300px; /* Adjust height to fit within the screen */
+    }
+
+    #page2 {
+        padding: 10px;
+    }
+
+    #careerDetails {
+        margin-bottom: 10px;
+        padding: 10px;
+    }
+
+    #page1 {
+        transform: translateY(-50px);
+    }
+
+    #page1 h1 {
+        color: #ffffff;
+        font-size: 24px;
+        transform: translateY(-100px);
+    }
+
+    #startCareer {
+        transform: translateY(100px);
+    }
+}
+
+/* Popup styles */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: #000; /* Black background color */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+    color: #ffffff; /* White text color */
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+#clubHistory {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #424242;
+    border: 1px solid #ffffff;
+    width: 350px;
+    height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease-in-out;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #424242 #ffffff;
+}
+
+#clubHistory p {
+    margin-right: 10px;
+    white-space: pre-wrap; /* Ensure the text wraps */
+    word-break: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Ensure proper wrapping */
 }

@@ -55,50 +55,36 @@ export function scrollToBottom(elementId) {
 
 export function showCareerSummary(player) {
     console.log('Showing career summary...');
-    const stats = generateRandomStats(player.origin);
+    
+    const totalTrophies = player.leagueTitles + player.internationalCups + player.worldCups + player.continentalCups;
+
     const careerSummary = `
         <h2>Career Summary</h2>
         <p>Highest Value: ${player.highestValue.toLocaleString()} $</p>
         <p>Total Goals: ${player.totalGoals}</p>
         <p>Total Assists: ${player.totalAssists}</p>
-        <p>League Titles: ${stats.leagueTitles}</p>
-        <p>International Cups: ${stats.internationalCups}</p>
-        <p>World Cups: ${stats.worldCups}</p>
-        <p>${stats.originCupName}: ${stats.originCups}</p>
+        <p>League Titles: ${player.leagueTitles}</p>
+        <p>International Cups: ${player.internationalCups}</p>
+        <p>World Cups: ${player.worldCups}</p>
+        <p>${getContinentalCupName(player.origin)}: ${player.continentalCups}</p>
+        <p>Total Years Played: ${player.totalYears}</p>
     `;
-    document.getElementById('page2').innerHTML = careerSummary + '<button onclick="startNewCareer()">Start New Career</button>';
+    document.getElementById('page2').innerHTML = careerSummary + '<button onclick="startNewCareer()">Restart</button>';
 }
 
-function generateRandomStats(origin) {
-    let originCupName;
+function getContinentalCupName(origin) {
     switch (origin) {
         case 'europe':
-            originCupName = 'European Cups';
-            break;
+            return 'European Cups';
         case 'south-america':
-            originCupName = 'Copa América';
-            break;
+            return 'Copa América';
         case 'africa':
-            originCupName = 'Africa Cup';
-            break;
+            return 'Africa Cup';
         case 'asia':
-            originCupName = 'Asia Cup';
-            break;
+            return 'Asia Cup';
         case 'north-america':
-            originCupName = 'Gold Cup';
-            break;
+            return 'Gold Cup';
         default:
-            originCupName = 'Continental Cup';
+            return 'Continental Cup';
     }
-
-    const stats = {
-        leagueTitles: Math.floor(Math.random() * 25),
-        internationalCups: Math.floor(Math.random() * 25),
-        worldCups: Math.floor(Math.random() * 5),
-        originCupName: originCupName,
-        originCups: Math.floor(Math.random() * 5)
-    };
-
-    console.log(`Generated random stats: ${JSON.stringify(stats)}`);
-    return stats;
 }

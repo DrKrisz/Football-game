@@ -1,10 +1,10 @@
-import { showCareerSummary } from './ui.js';
+import { showPopup, showCareerSummary } from './main.js';
 
+// utils.js
 export function checkInjury(player) {
-    console.log('Checking for injury...');
-    if (Math.random() < 0.01) { // 1% chance
+    if (Math.random() < 0.1) { // 10% chance of injury
         player.retired = true;
-        alert("You got injured and have to retire early.");
+        showPopup(`You got injured and had to retire! Career summary is now shown.`);
         showCareerSummary(player);
         return true;
     }

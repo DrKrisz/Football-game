@@ -185,7 +185,7 @@ function retirePlayer() {
         <p>Assists: ${stats.assists}</p>
         <p>Trophies: ${stats.trophies}</p>
     `;
-    document.getElementById('page2').innerHTML = careerSummary + '<button onclick="startNewCareer()">Start New Career</button>';
+    document.getElementById('page2').innerHTML = careerSummary + '<button onclick="startNewCareer()">Restart</button>';
 }
 
 function generateRandomStats() {
