@@ -51,8 +51,8 @@ function stayTeam() {
         return;
     }
 
-    // 25% chance the club terminates the contract
-    if (Math.random() < 0.25) {
+    // 5% chance the club terminates the contract
+    if (Math.random() < 0.05) {
         let newTeam = getRandomTeam();
         
         // Ensure the new team is different from the current team

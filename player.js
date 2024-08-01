@@ -60,28 +60,28 @@ export class Player {
     }
 
     checkTrophies() {
-        // League Titles: 40% chance to win once a year
-        if (Math.random() < 0.40) {
+        // League Titles: 25% chance to win once a year
+        if (Math.random() < 0.25) {
             this.leagueTitles++;
         }
 
-        // International Cups: 5% chance to win 3 cups, 20% chance to win 2 cups, 30% chance to win 1 cup
+        // International Cups: 1% chance to win 3 cups, 15% chance to win 2 cups, 25% chance to win 1 cup
         const internationalChance = Math.random();
-        if (internationalChance < 0.05) {
+        if (internationalChance < 0.01) {
             this.internationalCups += 3;
-        } else if (internationalChance < 0.25) { // 0.05 + 0.20
+        } else if (internationalChance < 0.15) { // 0.05 + 0.20
             this.internationalCups += 2;
-        } else if (internationalChance < 0.55) { // 0.05 + 0.20 + 0.30
+        } else if (internationalChance < 0.25) { // 0.05 + 0.20 + 0.30
             this.internationalCups += 1;
         }
 
-        // World Cup: 10% chance to win every 4 years
-        if (this.age % 4 === 0 && Math.random() < 0.10) {
+        // World Cup: 1% chance to win every 4 years
+        if (this.age % 4 === 0 && Math.random() < 0.01) {
             this.worldCups++;
         }
 
-        // Continental Cup: 15% chance to win every 4 years
-        if (this.age % 4 === 0 && Math.random() < 0.15) {
+        // Continental Cup: 5% chance to win every 4 years
+        if (this.age % 4 === 0 && Math.random() < 0.05) {
             this.continentalCups++;
         }
     }

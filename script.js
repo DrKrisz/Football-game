@@ -137,7 +137,7 @@ function incrementAge() {
     player.prevValue = player.value;
     
     if (player.age >= 24 && player.age <= 27) {
-        if (Math.random() < 0.20) { // 20% chance
+        if (Math.random() < 0.10) { // 10% chance
             player.value += getRandomHighValueIncrease();
         } else {
             player.value += getRandomValueChange();
@@ -145,7 +145,7 @@ function incrementAge() {
     } else if (player.age <= 30) {
         player.value += getRandomValueChange();
     } else if (player.age > 34 && player.value > 100000000) {
-        if (Math.random() < 0.75) { // 75% chance
+        if (Math.random() < 0.9) { // 90% chance
             player.value -= getRandomHighValueDecrease();
             if (player.value < 30000000) player.value = 30000000; // Ensure value doesn't go below 30 million
         } else {
