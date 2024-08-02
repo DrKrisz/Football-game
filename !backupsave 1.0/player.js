@@ -3,8 +3,6 @@ import { showCareerSummary } from './ui.js';
 
 export class Player {
     constructor() {
-        this.name = '';
-        this.appearance = '';
         this.age = 16;
         this.team = '';
         this.position = '';
@@ -22,9 +20,6 @@ export class Player {
         this.internationalCups = 0;
         this.worldCups = 0;
         this.continentalCups = 0;
-        this.injured = false;
-        this.injuryDuration = 0;
-        this.ballonDors = 0; // Add property to track Ballon d'Or wins
     }
 
     incrementAge() {
@@ -64,19 +59,6 @@ export class Player {
         }
     }
 
-    incrementAgeDuringInjury() {
-        this.age++;
-        this.totalYears++;
-        this.prevValue = this.value;
-        // Value only decreases during injury, no increase
-        const valueDecrease = getRandomValueChange();
-        this.value = Math.max(0, this.value - valueDecrease);
-
-        if (this.age > 40) {
-            showCareerSummary(this);
-        }
-    }
-
     checkTrophies() {
         // League Titles: 25% chance to win once a year
         if (Math.random() < 0.25) {
@@ -104,14 +86,14 @@ export class Player {
         }
     }
 
-    addClubHistory(age, team, value, goals, assists, color, ballonDorMessage = '') {
+    addClubHistory(age, team, value, goals, assists) {
         const p = document.createElement('p');
-        if (goals === 'Injured' && assists === 'Injured') {
-            p.innerText = `${age} yrs: ${team} - ${value.toLocaleString()} $ - Injured`;
-        } else {
-            p.innerText = `${age} yrs: ${team} - ${value.toLocaleString()} $ - ${goals} goals - ${assists} assists${ballonDorMessage}`;
+        p.innerText = `${age} yrs: ${team} - ${value.toLocaleString()} $ - ${goals} goals - ${assists} assists`;
+        if (value > this.prevValue) {
+            p.style.color = 'green';
+        } else if (value < this.prevValue) {
+            p.style.color = 'red';
         }
-        p.style.color = color;
         this.clubHistory.push(p);
     }
 }

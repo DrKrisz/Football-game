@@ -1,12 +1,12 @@
 import { Player } from './player.js';
 import { getRandomTeam } from './teams.js';
 import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary as uiShowCareerSummary } from './ui.js';
-import { checkInjury, getRandomGoals, getRandomAssists, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease } from './utils.js';
+import { checkInjury, getRandomGoals, getRandomAssists } from './utils.js';
 
 let player = new Player();
 
 document.getElementById('startCareer').addEventListener('click', startCareer);
-document.getElementById('stayTeam').addEventListener('click', handleStayOrNextYear);
+document.getElementById('stayTeam').addEventListener('click', stayTeam);
 document.getElementById('team1').addEventListener('click', () => chooseTeam('team1'));
 document.getElementById('team2').addEventListener('click', () => chooseTeam('team2'));
 document.getElementById('restartCareer').addEventListener('click', startNewCareer);
@@ -16,22 +16,21 @@ document.getElementById('closePopup').addEventListener('click', closePopup);
 const originalPage2Content = document.getElementById('page2').innerHTML;
 
 function startCareer() {
-    const nameInput = document.getElementById('name');
+    console.log('Starting career...');
     const positionSelect = document.getElementById('position');
     const originSelect = document.getElementById('origin');
-    const appearanceInput = document.getElementById('appearance');
 
-    if (!nameInput || !positionSelect || !originSelect || !appearanceInput) {
+    if (!positionSelect || !originSelect) {
+        console.error('Missing elements for position or origin selection.');
         return;
     }
 
-    player.name = nameInput.value;
     player.position = positionSelect.value;
     player.origin = originSelect.value.toLowerCase();
-    player.appearance = appearanceInput.value; // Store appearance
 
     player.team = getRandomTeam();
-    player.addClubHistory(player.age, player.team, player.value, 'Initial', 'Initial');
+    console.log(`Initial team assigned: ${player.team}`);
+    player.addClubHistory(player.age, player.team, player.value, 0, 0);
 
     if (!player.team) {
         showPopup("Error: No team found for the selected origin.");
@@ -46,96 +45,62 @@ function startCareer() {
     scrollToBottom('clubHistory');
 }
 
-function handleStayOrNextYear() {
-    if (player.injured) {
-        nextYear();
-    } else {
-        stayTeam();
-    }
-}
-
 function stayTeam() {
+    console.log('Staying with the team...');
     if (checkInjury(player)) {
-        document.getElementById('stayTeam').innerText = 'Next Year';
         return;
+    }
+
+    // 5% chance the club terminates the contract
+    if (Math.random() < 0.05) {
+        let newTeam = getRandomTeam();
+        
+        // Ensure the new team is different from the current team
+        while (newTeam === player.team) {
+            newTeam = getRandomTeam();
+        }
+
+        const newValueRaw = Math.random() < 0.1 ? "Free" : (Math.random() * 100000000).toFixed(2);
+        const newValue = newValueRaw === "Free" ? "Free" : roundToNearestMillion(parseFloat(newValueRaw));
+        showPopup(`The club has terminated the contract with you! They sold you to ${newTeam} for ${newValue}.`);
+        player.team = newTeam;
+
+        if (newValue !== "Free") {
+            player.value = parseFloat(newValue.replace(/,/g, "").replace(" $", ""));
+        }
     }
 
     player.incrementAge();
     const goals = getRandomGoals();
     const assists = getRandomAssists();
+    player.addClubHistory(player.age, player.team, player.value, goals, assists);
     player.totalGoals += goals;
     player.totalAssists += assists;
-
-    let historyColor = 'black';
-    let ballonDorMessage = '';
-    if (goals > 30 || assists > 15) {
-        historyColor = 'yellow';
-        player.value += getRandomBallonDorIncrease();
-        player.ballonDors++;
-        ballonDorMessage = ' - Ballon d\'Or Winner!';
-    } else if (player.value > player.prevValue) {
-        historyColor = 'green';
-    } else if (player.value < player.prevValue) {
-        historyColor = 'red';
-    }
-
-    player.addClubHistory(player.age, player.team, player.value, goals, assists, historyColor, ballonDorMessage);
     if (!document.getElementById('careerDetails') || !document.getElementById('clubHistory')) {
+        console.log('Career summary already shown, skipping updates.');
         return;
     }
-    updateCareerDetails(player);
-    updateRandomTeamButtons(player);
-    scrollToBottom('clubHistory');
-}
-
-function nextYear() {
-    player.injuryDuration--;
-    player.incrementAgeDuringInjury();
-    const valueDecrease = getRandomValueChange();
-    player.value = Math.max(0, player.value - valueDecrease);
-    player.addClubHistory(player.age, player.team, player.value, 'Injured', 'Injured', 'black', '');
-    
-    if (player.injuryDuration <= 0) {
-        player.injured = false;
-        showPopup("You have recovered from your injury!");
-        document.getElementById('stayTeam').innerText = 'Stay with the Team';
-    } else {
-        showPopup(`You are still injured. ${player.injuryDuration} year(s) to go.`);
-    }
-
     updateCareerDetails(player);
     updateRandomTeamButtons(player);
     scrollToBottom('clubHistory');
 }
 
 function chooseTeam(buttonId) {
+    console.log(`Choosing new team from button: ${buttonId}`);
     if (checkInjury(player)) {
-        document.getElementById('stayTeam').innerText = 'Next Year';
         return;
     }
     player.incrementAge();
     const chosenTeam = player.nextTeams[buttonId === 'team1' ? 0 : 1];
     player.team = chosenTeam;
+    console.log(`New team chosen: ${player.team}`);
     const goals = getRandomGoals();
     const assists = getRandomAssists();
+    player.addClubHistory(player.age, player.team, player.value, goals, assists);
     player.totalGoals += goals;
     player.totalAssists += assists;
-
-    let historyColor = 'black';
-    let ballonDorMessage = '';
-    if (goals > 30 || assists > 15) {
-        historyColor = 'yellow';
-        player.value += getRandomBallonDorIncrease();
-        player.ballonDors++;
-        ballonDorMessage = ' - Ballon d\'Or Winner!';
-    } else if (player.value > player.prevValue) {
-        historyColor = 'green';
-    } else if (player.value < player.prevValue) {
-        historyColor = 'red';
-    }
-
-    player.addClubHistory(player.age, player.team, player.value, goals, assists, historyColor, ballonDorMessage);
     if (!document.getElementById('careerDetails') || !document.getElementById('clubHistory')) {
+        console.log('Career summary already shown, skipping updates.');
         return;
     }
     updateCareerDetails(player);
@@ -144,16 +109,18 @@ function chooseTeam(buttonId) {
 }
 
 function retireEarly() {
+    console.log('Retiring early...');
     showCareerSummary(player);
 }
 
 export function startNewCareer() {
+    console.log('Starting new career...');
     player = new Player();
     document.getElementById('page1').style.display = 'block';
     document.getElementById('page2').style.display = 'none';
     document.getElementById('page2').innerHTML = originalPage2Content;
 
-    document.getElementById('stayTeam').addEventListener('click', handleStayOrNextYear);
+    document.getElementById('stayTeam').addEventListener('click', stayTeam);
     document.getElementById('team1').addEventListener('click', () => chooseTeam('team1'));
     document.getElementById('team2').addEventListener('click', () => chooseTeam('team2'));
     document.getElementById('restartCareer').addEventListener('click', startNewCareer);
@@ -166,4 +133,17 @@ window.startNewCareer = startNewCareer;
 
 function roundToNearestMillion(value) {
     return `${(Math.round(value / 1000000) * 1000000).toLocaleString()} $`;
+}
+
+export function showPopup(message) {
+    document.getElementById('popupMessage').innerText = message;
+    document.getElementById('popup').style.display = 'flex';
+}
+
+export function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+}
+
+export function showCareerSummary(player) {
+    uiShowCareerSummary(player);
 }
