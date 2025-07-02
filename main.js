@@ -1,6 +1,6 @@
 import { Player } from './player.js';
 import { getRandomTeam } from './teams.js';
-import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary as uiShowCareerSummary } from './ui.js';
+import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary } from './ui.js';
 import { checkInjury, getRandomGoals, getRandomAssists, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease } from './utils.js';
 
 let player = new Player();
