@@ -32,7 +32,7 @@ button {
     color: #ffffff;
     border: none;
     cursor: pointer;
-    width: 100px; /* Fixed width to handle longer names */
+    width: 150px; /* Fixed width to handle longer names */
     white-space: nowrap; /* Prevent text from wrapping */
     overflow: hidden; /* Hide overflow text */
     text-overflow: ellipsis; /* Add ellipsis to overflow text */
@@ -63,7 +63,7 @@ label {
     padding: 10px;
     background-color: #424242;
     border: 1px solid #ffffff;
-    width: 350px;
+    width: 1000px;
     height: 400px;
     max-height: 400px;
     overflow-y: auto;
