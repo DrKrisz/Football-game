@@ -1,4 +1,4 @@
-import { getRandomTeam } from './teams.js';
+import { getRandomTeam, getRandomBigTeam } from './teams.js';
 import { calculatePerformance, getContinentalCupName } from './utils.js';
 
 export function updateCareerDetails(player) {
@@ -13,7 +13,8 @@ export function updateCareerDetails(player) {
         ${player.age} yrs: ${player.team}<br>
         Value: ${player.value.toLocaleString()} $<br>
         Total Goals: ${player.totalGoals} <br>
-        Total Assists: ${player.totalAssists}
+        Total Assists: ${player.totalAssists} <br>
+        Passing Skill: ${player.passing}
     `;
 
     clubHistory.innerHTML = '';
@@ -30,7 +31,11 @@ export function updateRandomTeamButtons(player) {
         return;
     }
     
-    player.nextTeams = [getRandomTeam(), getRandomTeam()];
+    if (player.transferOffer) {
+        player.nextTeams = [getRandomBigTeam(), getRandomBigTeam()];
+    } else {
+        player.nextTeams = [getRandomTeam(), getRandomTeam()];
+    }
     team1Button.innerText = `Go to ${player.nextTeams[0]}`;
     team2Button.innerText = `Go to ${player.nextTeams[1]}`;
 }
@@ -51,6 +56,7 @@ export function showCareerSummary(player) {
         <p>Highest Value: ${player.highestValue.toLocaleString()} $</p>
         <p>Total Goals: ${player.totalGoals}</p>
         <p>Total Assists: ${player.totalAssists}</p>
+        <p>Passing Skill: ${player.passing}</p>
         <p>League Titles: ${player.leagueTitles}</p>
         <p>International Cups: ${player.internationalCups}</p>
         <p>World Cups: ${player.worldCups}</p>

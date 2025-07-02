@@ -1,4 +1,4 @@
-import { getRandomValueChange, getRandomHighValueIncrease, getRandomHighValueDecrease } from './utils.js';
+import { getRandomValueChange, getRandomHighValueIncrease, getRandomHighValueDecrease, showEventMessage } from './utils.js';
 import { showCareerSummary } from './ui.js';
 
 export class Player {
@@ -25,12 +25,21 @@ export class Player {
         this.injured = false;
         this.injuryDuration = 0;
         this.ballonDors = 0; // Add property to track Ballon d'Or wins
+        this.passing = 50;
+        this.trainingBoostYears = 0;
+        this.transferOffer = false;
     }
 
     incrementAge() {
         this.age++;
         this.totalYears++;
         this.prevValue = this.value;
+
+        if (this.trainingBoostYears > 0) {
+            this.value += 1000000;
+            this.passing += 5;
+            this.trainingBoostYears--;
+        }
 
         if (this.age >= 24 && this.age <= 27) {
             if (Math.random() < 0.20) {
@@ -72,6 +81,11 @@ export class Player {
         const valueDecrease = getRandomValueChange();
         this.value = Math.max(0, this.value - valueDecrease);
 
+        if (this.trainingBoostYears > 0) {
+            this.passing += 5;
+            this.trainingBoostYears--;
+        }
+
         if (this.age > 40) {
             showCareerSummary(this);
         }
@@ -81,26 +95,32 @@ export class Player {
         // League Titles: 25% chance to win once a year
         if (Math.random() < 0.25) {
             this.leagueTitles++;
+            showEventMessage('League Title Won!');
         }
 
         // International Cups: 1% chance to win 3 cups, 15% chance to win 2 cups, 25% chance to win 1 cup
         const internationalChance = Math.random();
         if (internationalChance < 0.01) {
             this.internationalCups += 3;
+            showEventMessage('International Cup Treble!');
         } else if (internationalChance < 0.15) { // 0.05 + 0.20
             this.internationalCups += 2;
+            showEventMessage('International Cup Double!');
         } else if (internationalChance < 0.25) { // 0.05 + 0.20 + 0.30
             this.internationalCups += 1;
+            showEventMessage('International Cup Win!');
         }
 
         // World Cup: 1% chance to win every 4 years
         if (this.age % 4 === 0 && Math.random() < 0.01) {
             this.worldCups++;
+            showEventMessage('World Cup Champion!');
         }
 
         // Continental Cup: 5% chance to win every 4 years
         if (this.age % 4 === 0 && Math.random() < 0.05) {
             this.continentalCups++;
+            showEventMessage('Continental Cup Victory!');
         }
     }
 
