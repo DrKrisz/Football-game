@@ -44,3 +44,13 @@ for (let league in teams) {
 export function getRandomTeam() {
     return allTeams[Math.floor(Math.random() * allTeams.length)];
 }
+
+export const bigTeams = [
+    "Real Madrid", "Barcelona", "Manchester City", "Liverpool",
+    "Bayern Munich", "PSG", "Juventus", "Chelsea", "Manchester United",
+    "Inter Milan", "Milan"
+];
+
+export function getRandomBigTeam() {
+    return bigTeams[Math.floor(Math.random() * bigTeams.length)];
+}
