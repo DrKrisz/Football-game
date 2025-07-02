@@ -1,38 +1,51 @@
 export const teams = {
     england: [
-        "Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton & Hove Albion", "Burnley",
-        "Chelsea", "Crystal Palace", "Everton", "Fulham", "Liverpool", "Luton Town",
-        "Manchester City", "Manchester United", "Newcastle United", "Nottingham Forest", "Sheffield United",
-        "Tottenham Hotspur", "West Ham United", "Wolverhampton"
+        "Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton & Hove Albion", 
+        "Burnley", "Chelsea", "Crystal Palace", "Everton", "Fulham", 
+        "Leeds United", "Liverpool", "Manchester City", "Manchester United", 
+        "Newcastle United", "Nottingham Forest", "Sunderland", 
+        "Tottenham Hotspur", "West Ham United", "Wolverhampton Wanderers"
     ],
     spain: [
-        "Alavés", "Athletic Bilbao", "Atlético Madrid", "Barcelona", "Cádiz", "Celta Vigo",
-        "Elche", "Espanyol", "Getafe", "Girona", "Granada", "Mallorca", "Osasuna", "Rayo Vallecano",
-        "Real Betis", "Real Madrid", "Real Sociedad", "Sevilla", "Valencia", "Villarreal"
+        "Alavés", "Athletic Bilbao", "Atlético Madrid", "Barcelona", "Celta Vigo", 
+        "Elche", "Espanyol", "Getafe", "Girona", "Levante", 
+        "Mallorca", "Osasuna", "Oviedo", "Rayo Vallecano", 
+        "Real Betis", "Real Madrid", "Real Sociedad", "Sevilla", 
+        "Valencia", "Villarreal"
     ],
     italy: [
-        "Atalanta", "Bologna", "Cagliari", "Empoli", "Fiorentina", "Genoa", "Inter Milan", "Juventus",
-        "Lazio", "Lecce", "Milan", "Monza", "Napoli", "Roma", "Salernitana", "Sampdoria", "Sassuolo",
+        "Atalanta", "Bologna", "Cagliari", "Empoli", "Fiorentina", 
+        "Genoa", "Inter Milan", "Juventus", "Lazio", "Lecce", 
+        "Milan", "Monza", "Napoli", "Roma", 
+        "Salernitana", "Sampdoria", "Sassuolo", 
         "Torino", "Udinese", "Verona"
     ],
     germany: [
-        "Augsburg", "Bayer Leverkusen", "Bayern Munich", "Bochum", "Borussia Dortmund",
-        "Borussia Mönchengladbach", "Darmstadt", "Eintracht Frankfurt", "Freiburg", "Heidenheim",
-        "Hoffenheim", "Köln", "Mainz", "RB Leipzig", "Stuttgart", "Union Berlin", "Werder Bremen", "Wolfsburg"
+        "Augsburg", "Bayer Leverkusen", "Bayern Munich", "Bochum", 
+        "Borussia Dortmund", "Borussia Mönchengladbach", "Darmstadt", 
+        "Eintracht Frankfurt", "Freiburg", "Heidenheim", 
+        "Hoffenheim", "Köln", "Mainz", "RB Leipzig", 
+        "Stuttgart", "Union Berlin", "Werder Bremen", "Wolfsburg"
     ],
     france: [
-        "Angers", "Ajaccio", "Auxerre", "Brest", "Clermont", "Lens", "Lille", "Lorient",
-        "Lyon", "Marseille", "Monaco", "Montpellier", "Nantes", "Nice", "PSG", "Reims", "Rennes",
+        "Angers", "Ajaccio", "Auxerre", "Brest", "Clermont", 
+        "Lens", "Lille", "Lorient", "Lyon", "Marseille", 
+        "Monaco", "Montpellier", "Nantes", "Nice", 
+        "Paris Saint-Germain", "Reims", "Rennes", 
         "Strasbourg", "Toulouse", "Troyes"
     ],
     norway: [
-        "Aalesund", "Bodø/Glimt", "Brann", "HamKam", "Haugesund", "Lillestrøm", "Molde",
-        "Odd", "Rosenborg", "Sandefjord", "Sarpsborg 08", "Stabæk", "Strømsgodset", "Tromsø",
+        "Aalesund", "Bodø/Glimt", "Brann", "HamKam", 
+        "Haugesund", "Lillestrøm", "Molde", "Odd", 
+        "Rosenborg", "Sandefjord", "Sarpsborg 08", 
+        "Stabæk", "Strømsgodset", "Tromsø", 
         "Vålerenga", "Viking"
     ],
     hungary: [
-        "Budapest Honvéd", "Debrecen", "Diósgyőr", "Fehérvár", "Ferencváros", "Kisvárda", "Kecskemét",
-        "Mezőkövesd", "MTK Budapest", "Paks", "Puskás Akadémia", "Újpest", "Zalaegerszeg"
+        "Budapest Honvéd", "Debrecen", "Diósgyőr", "Fehérvár", 
+        "Ferencváros", "Kecskemét", "Kisvárda", "Mezőkövesd", 
+        "MTK Budapest", "Paks", "Puskás Akadémia", 
+        "Újpest", "Zalaegerszeg"
     ]
 };
 
@@ -46,9 +59,11 @@ export function getRandomTeam() {
 }
 
 export const bigTeams = [
-    "Real Madrid", "Barcelona", "Manchester City", "Liverpool",
-    "Bayern Munich", "PSG", "Juventus", "Chelsea", "Manchester United",
-    "Inter Milan", "Milan"
+    "Real Madrid", "Barcelona", "Atlético Madrid",
+    "Manchester City", "Liverpool", "Arsenal", "Manchester United", "Chelsea",
+    "Bayern Munich", "Borussia Dortmund", "RB Leipzig",
+    "PSG", "Marseille",
+    "Juventus", "Inter Milan", "Milan", "Napoli"
 ];
 
 export function getRandomBigTeam() {
