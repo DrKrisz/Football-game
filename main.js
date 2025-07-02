@@ -28,10 +28,10 @@ function startCareer() {
     player.name = nameInput.value;
     player.position = positionSelect.value;
     player.origin = originSelect.value.toLowerCase();
-    player.appearance = appearanceInput.value; // Store appearance
+    player.appearance = appearanceInput.value;
 
     player.team = getRandomTeam();
-    player.addClubHistory(player.age, player.team, player.value, 'Initial', 'Initial');
+    player.addClubHistory(player.age, player.team, player.value, 'Initial', 'Initial', 'black');
 
     if (!player.team) {
         showPopup("Error: No team found for the selected origin.");
@@ -84,9 +84,6 @@ function stayTeam() {
     }
 
     player.addClubHistory(player.age, player.team, player.value, goals, assists, historyColor, ballonDorMessage);
-    if (!document.getElementById('careerDetails') || !document.getElementById('clubHistory')) {
-        return;
-    }
     updateCareerDetails(player);
     updateRandomTeamButtons(player);
     scrollToBottom('clubHistory');
@@ -95,10 +92,8 @@ function stayTeam() {
 function nextYear() {
     player.injuryDuration--;
     player.incrementAgeDuringInjury();
-    const valueDecrease = getRandomValueChange();
-    player.value = Math.max(0, player.value - valueDecrease);
-    player.addClubHistory(player.age, player.team, player.value, 'Injured', 'Injured', 'black', '');
-    
+    player.addClubHistory(player.age, player.team, player.value, 'Injured', 'Injured', 'black');
+
     if (player.injuryDuration <= 0) {
         player.injured = false;
         showPopup("You have recovered from your injury!");
@@ -117,6 +112,7 @@ function chooseTeam(buttonId) {
         document.getElementById('stayTeam').innerText = 'Next Year';
         return;
     }
+
     player.incrementAge();
     checkTrainingBoost(player);
     const chosenTeam = player.nextTeams[buttonId === 'team1' ? 0 : 1];
@@ -143,9 +139,6 @@ function chooseTeam(buttonId) {
     }
 
     player.addClubHistory(player.age, player.team, player.value, goals, assists, historyColor, ballonDorMessage);
-    if (!document.getElementById('careerDetails') || !document.getElementById('clubHistory')) {
-        return;
-    }
     updateCareerDetails(player);
     updateRandomTeamButtons(player);
     scrollToBottom('clubHistory');
@@ -169,9 +162,4 @@ export function startNewCareer() {
     document.getElementById('closePopup').addEventListener('click', closePopup);
 }
 
-// Make startNewCareer accessible globally
 window.startNewCareer = startNewCareer;
-
-function roundToNearestMillion(value) {
-    return `${(Math.round(value / 1000000) * 1000000).toLocaleString()} $`;
-}

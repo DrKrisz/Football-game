@@ -24,7 +24,7 @@ export class Player {
         this.continentalCups = 0;
         this.injured = false;
         this.injuryDuration = 0;
-        this.ballonDors = 0; // Add property to track Ballon d'Or wins
+        this.ballonDors = 0;
         this.passing = 50;
         this.trainingBoostYears = 0;
         this.transferOffer = false;
@@ -77,7 +77,6 @@ export class Player {
         this.age++;
         this.totalYears++;
         this.prevValue = this.value;
-        // Value only decreases during injury, no increase
         const valueDecrease = getRandomValueChange();
         this.value = Math.max(0, this.value - valueDecrease);
 
@@ -92,32 +91,28 @@ export class Player {
     }
 
     checkTrophies() {
-        // League Titles: 25% chance to win once a year
         if (Math.random() < 0.25) {
             this.leagueTitles++;
             showEventMessage('League Title Won!');
         }
 
-        // International Cups: 1% chance to win 3 cups, 15% chance to win 2 cups, 25% chance to win 1 cup
         const internationalChance = Math.random();
         if (internationalChance < 0.01) {
             this.internationalCups += 3;
             showEventMessage('International Cup Treble!');
-        } else if (internationalChance < 0.15) { // 0.05 + 0.20
+        } else if (internationalChance < 0.15) {
             this.internationalCups += 2;
             showEventMessage('International Cup Double!');
-        } else if (internationalChance < 0.25) { // 0.05 + 0.20 + 0.30
+        } else if (internationalChance < 0.25) {
             this.internationalCups += 1;
             showEventMessage('International Cup Win!');
         }
 
-        // World Cup: 1% chance to win every 4 years
         if (this.age % 4 === 0 && Math.random() < 0.01) {
             this.worldCups++;
             showEventMessage('World Cup Champion!');
         }
 
-        // Continental Cup: 5% chance to win every 4 years
         if (this.age % 4 === 0 && Math.random() < 0.05) {
             this.continentalCups++;
             showEventMessage('Continental Cup Victory!');

@@ -1,9 +1,9 @@
 import { getRandomBigTeam } from './teams.js';
 
 export function checkInjury(player) {
-    if (Math.random() < 0.01) { // 1% chance of injury
+    if (Math.random() < 0.01) {
         player.injured = true;
-        player.injuryDuration = getRandomInjuryDuration(); // Add injury duration
+        player.injuryDuration = getRandomInjuryDuration();
         showPopup(`You got injured! You will be out for ${player.injuryDuration} year(s).`);
         return true;
     }
@@ -11,45 +11,45 @@ export function checkInjury(player) {
 }
 
 export function getRandomInjuryDuration() {
-    return Math.floor(Math.random() * 3) + 1; // Random duration between 1 and 3 years
+    return Math.floor(Math.random() * 3) + 1;
 }
 
 export function getRandomValueChange() {
-    return Math.floor(Math.random() * 500001); // Random value between 0 and 500,000
+    return Math.floor(Math.random() * 500001);
 }
 
 export function getRandomHighValueIncrease() {
-    return 5000000 + Math.floor(Math.random() * 5500001); // Random value between 5 and 10.5 million
+    return 5000000 + Math.floor(Math.random() * 5500001);
 }
 
 export function getRandomHighValueDecrease() {
-    return 10000000 + Math.floor(Math.random() * 11000001); // Random value between 10 and 20 million
+    return 10000000 + Math.floor(Math.random() * 11000001);
 }
 
 export function getRandomGoals() {
     const probability = Math.random();
     if (probability < 0.80) {
-        return Math.floor(Math.random() * 11); // 80% chance to get 0-10 goals
+        return Math.floor(Math.random() * 11);
     } else if (probability < 0.95) {
-        return Math.floor(Math.random() * 31); // 15% chance to get 0-30 goals
+        return Math.floor(Math.random() * 31);
     } else {
-        return Math.floor(Math.random() * 101); // 5% chance to get 0-100 goals
+        return Math.floor(Math.random() * 101);
     }
 }
 
 export function getRandomAssists() {
     const probability = Math.random();
     if (probability < 0.80) {
-        return Math.floor(Math.random() * 6); // 80% chance to get 0-5 assists
+        return Math.floor(Math.random() * 6);
     } else if (probability < 0.95) {
-        return Math.floor(Math.random() * 16); // 15% chance to get 0-15 assists
+        return Math.floor(Math.random() * 16);
     } else {
-        return Math.floor(Math.random() * 31); // 5% chance to get 0-30 assists
+        return Math.floor(Math.random() * 31);
     }
 }
 
 export function getRandomBallonDorIncrease() {
-    return 10000000 + Math.floor(Math.random() * 40000001); // Random value between 10 and 50 million
+    return 10000000 + Math.floor(Math.random() * 40000001);
 }
 
 export function showPopup(message) {

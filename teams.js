@@ -59,11 +59,10 @@ export function getRandomTeam() {
 }
 
 export const bigTeams = [
-    "Real Madrid", "Barcelona", "Atlético Madrid",
-    "Manchester City", "Liverpool", "Arsenal", "Manchester United", "Chelsea",
-    "Bayern Munich", "Borussia Dortmund", "RB Leipzig",
-    "PSG", "Marseille",
-    "Juventus", "Inter Milan", "Milan", "Napoli"
+    "Real Madrid", "Barcelona", "Manchester City", "Liverpool",
+    "Bayern Munich", "PSG", "Juventus", "Chelsea", "Manchester United",
+    "Inter Milan", "Milan", "Atlético Madrid", "Arsenal", "Borussia Dortmund",
+    "RB Leipzig", "Marseille", "Napoli"
 ];
 
 export function getRandomBigTeam() {
