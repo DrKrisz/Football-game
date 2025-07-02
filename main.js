@@ -1,7 +1,7 @@
 import { Player } from './player.js';
 import { getRandomTeam } from './teams.js';
 import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary } from './ui.js';
-import { checkInjury, getRandomGoals, getRandomAssists, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease } from './utils.js';
+import { checkInjury, getRandomGoals, getRandomAssists, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease, checkTrainingBoost, checkTransferInterest, showEventMessage } from './utils.js';
 
 let player = new Player();
 
@@ -61,10 +61,13 @@ function stayTeam() {
     }
 
     player.incrementAge();
+    checkTrainingBoost(player);
     const goals = getRandomGoals();
     const assists = getRandomAssists();
     player.totalGoals += goals;
     player.totalAssists += assists;
+    player.passing += assists * 0.5;
+    checkTransferInterest(player, goals, assists);
 
     let historyColor = 'black';
     let ballonDorMessage = '';
@@ -73,6 +76,7 @@ function stayTeam() {
         player.value += getRandomBallonDorIncrease();
         player.ballonDors++;
         ballonDorMessage = ' - Ballon d\'Or Winner!';
+        showEventMessage("Ballon d'Or winner!", true);
     } else if (player.value > player.prevValue) {
         historyColor = 'green';
     } else if (player.value < player.prevValue) {
@@ -114,12 +118,15 @@ function chooseTeam(buttonId) {
         return;
     }
     player.incrementAge();
+    checkTrainingBoost(player);
     const chosenTeam = player.nextTeams[buttonId === 'team1' ? 0 : 1];
     player.team = chosenTeam;
     const goals = getRandomGoals();
     const assists = getRandomAssists();
     player.totalGoals += goals;
     player.totalAssists += assists;
+    player.passing += assists * 0.5;
+    checkTransferInterest(player, goals, assists);
 
     let historyColor = 'black';
     let ballonDorMessage = '';
@@ -128,6 +135,7 @@ function chooseTeam(buttonId) {
         player.value += getRandomBallonDorIncrease();
         player.ballonDors++;
         ballonDorMessage = ' - Ballon d\'Or Winner!';
+        showEventMessage("Ballon d'Or winner!", true);
     } else if (player.value > player.prevValue) {
         historyColor = 'green';
     } else if (player.value < player.prevValue) {

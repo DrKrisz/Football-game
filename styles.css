@@ -202,3 +202,20 @@ label {
 .event-message.fade-out {
     opacity: 0;
 }
+
+.confetti {
+    position: fixed;
+    top: -10px;
+    width: 8px;
+    height: 8px;
+    opacity: 0.8;
+    animation: confetti-fall 3s linear forwards;
+    z-index: 999;
+}
+
+@keyframes confetti-fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
