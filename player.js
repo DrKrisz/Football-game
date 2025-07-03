@@ -14,6 +14,8 @@ export class Player {
         this.highestValue = 100000;
         this.totalGoals = 0;
         this.totalAssists = 0;
+        this.totalYellowCards = 0;
+        this.totalRedCards = 0;
         this.clubHistory = [];
         this.nextTeams = [];
         this.retired = false;
@@ -93,38 +95,44 @@ export class Player {
     checkTrophies() {
         if (Math.random() < 0.25) {
             this.leagueTitles++;
+            this.value += 2000000;
             showEventMessage('League Title Won!');
         }
 
         const internationalChance = Math.random();
         if (internationalChance < 0.01) {
             this.internationalCups += 3;
+            this.value += 10000000;
             showEventMessage('International Cup Treble!');
         } else if (internationalChance < 0.15) {
             this.internationalCups += 2;
+            this.value += 7000000;
             showEventMessage('International Cup Double!');
         } else if (internationalChance < 0.25) {
             this.internationalCups += 1;
+            this.value += 3000000;
             showEventMessage('International Cup Win!');
         }
 
         if (this.age % 4 === 0 && Math.random() < 0.01) {
             this.worldCups++;
+            this.value += 20000000;
             showEventMessage('World Cup Champion!');
         }
 
         if (this.age % 4 === 0 && Math.random() < 0.05) {
             this.continentalCups++;
+            this.value += 4000000;
             showEventMessage('Continental Cup Victory!');
         }
     }
 
-    addClubHistory(age, team, value, goals, assists, color, ballonDorMessage = '') {
+    addClubHistory(age, team, value, goals, assists, color, ballonDorMessage = '', yellowCards = 0, redCards = 0) {
         const p = document.createElement('p');
         if (goals === 'Injured' && assists === 'Injured') {
             p.innerText = `${age} yrs: ${team} - ${value.toLocaleString()} $ - Injured`;
         } else {
-            p.innerText = `${age} yrs: ${team} - ${value.toLocaleString()} $ - ${goals} goals - ${assists} assists${ballonDorMessage}`;
+            p.innerText = `${age} yrs: ${team} - ${value.toLocaleString()} $ - ${goals} goals - ${assists} assists - ${yellowCards} YC - ${redCards} RC${ballonDorMessage}`;
         }
         p.style.color = color;
         this.clubHistory.push(p);

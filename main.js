@@ -1,7 +1,7 @@
 import { Player } from './player.js';
 import { getRandomTeam } from './teams.js';
 import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary } from './ui.js';
-import { checkInjury, getRandomGoals, getRandomAssists, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease, checkTrainingBoost, checkTransferInterest, showEventMessage } from './utils.js';
+import { checkInjury, getGoalsForPosition, getAssistsForPosition, getPassingMultiplier, getRandomYellowCards, getRandomRedCards, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease, checkTrainingBoost, checkTransferInterest, showEventMessage, adjustValueForSeason } from './utils.js';
 
 let player = new Player();
 
@@ -31,7 +31,7 @@ function startCareer() {
     player.appearance = appearanceInput.value;
 
     player.team = getRandomTeam();
-    player.addClubHistory(player.age, player.team, player.value, 'Initial', 'Initial', 'black');
+    player.addClubHistory(player.age, player.team, player.value, 'Initial', 'Initial', 'black', '', 0, 0);
 
     if (!player.team) {
         showPopup("Error: No team found for the selected origin.");
@@ -62,12 +62,17 @@ function stayTeam() {
 
     player.incrementAge();
     checkTrainingBoost(player);
-    const goals = getRandomGoals();
-    const assists = getRandomAssists();
+    const goals = getGoalsForPosition(player.position);
+    const assists = getAssistsForPosition(player.position);
+    const yellowCards = getRandomYellowCards();
+    const redCards = getRandomRedCards();
     player.totalGoals += goals;
     player.totalAssists += assists;
-    player.passing += assists * 0.5;
+    player.totalYellowCards += yellowCards;
+    player.totalRedCards += redCards;
+    player.passing += assists * getPassingMultiplier(player.position);
     checkTransferInterest(player, goals, assists);
+    adjustValueForSeason(player, goals, assists, yellowCards, redCards);
 
     let historyColor = 'black';
     let ballonDorMessage = '';
@@ -83,7 +88,7 @@ function stayTeam() {
         historyColor = 'red';
     }
 
-    player.addClubHistory(player.age, player.team, player.value, goals, assists, historyColor, ballonDorMessage);
+    player.addClubHistory(player.age, player.team, player.value, goals, assists, historyColor, ballonDorMessage, yellowCards, redCards);
     updateCareerDetails(player);
     updateRandomTeamButtons(player);
     scrollToBottom('clubHistory');
@@ -92,7 +97,7 @@ function stayTeam() {
 function nextYear() {
     player.injuryDuration--;
     player.incrementAgeDuringInjury();
-    player.addClubHistory(player.age, player.team, player.value, 'Injured', 'Injured', 'black');
+    player.addClubHistory(player.age, player.team, player.value, 'Injured', 'Injured', 'black', '', 0, 0);
 
     if (player.injuryDuration <= 0) {
         player.injured = false;
@@ -117,12 +122,17 @@ function chooseTeam(buttonId) {
     checkTrainingBoost(player);
     const chosenTeam = player.nextTeams[buttonId === 'team1' ? 0 : 1];
     player.team = chosenTeam;
-    const goals = getRandomGoals();
-    const assists = getRandomAssists();
+    const goals = getGoalsForPosition(player.position);
+    const assists = getAssistsForPosition(player.position);
+    const yellowCards = getRandomYellowCards();
+    const redCards = getRandomRedCards();
     player.totalGoals += goals;
     player.totalAssists += assists;
-    player.passing += assists * 0.5;
+    player.totalYellowCards += yellowCards;
+    player.totalRedCards += redCards;
+    player.passing += assists * getPassingMultiplier(player.position);
     checkTransferInterest(player, goals, assists);
+    adjustValueForSeason(player, goals, assists, yellowCards, redCards);
 
     let historyColor = 'black';
     let ballonDorMessage = '';
@@ -138,7 +148,7 @@ function chooseTeam(buttonId) {
         historyColor = 'red';
     }
 
-    player.addClubHistory(player.age, player.team, player.value, goals, assists, historyColor, ballonDorMessage);
+    player.addClubHistory(player.age, player.team, player.value, goals, assists, historyColor, ballonDorMessage, yellowCards, redCards);
     updateCareerDetails(player);
     updateRandomTeamButtons(player);
     scrollToBottom('clubHistory');
