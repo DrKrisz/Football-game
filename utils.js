@@ -149,7 +149,6 @@ export function adjustValueForSeason(player, goals, assists, yellowCards, redCar
     }
 }
 
-
 export function getRandomBallonDorIncrease() {
     return 10000000 + Math.floor(Math.random() * 40000001);
 }
