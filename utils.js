@@ -70,6 +70,18 @@ export function getRandomRedCards() {
     }
 }
 
+export function adjustValueForSeason(player, goals, assists, yellowCards, redCards) {
+    let change = goals * 200000 + assists * 150000;
+    change -= yellowCards * 50000 + redCards * 200000;
+    if (player.transferOffer) {
+        change *= 1.2;
+    }
+    player.value = Math.max(0, player.value + Math.floor(change));
+    if (player.value > player.highestValue) {
+        player.highestValue = player.value;
+    }
+}
+
 export function getRandomBallonDorIncrease() {
     return 10000000 + Math.floor(Math.random() * 40000001);
 }

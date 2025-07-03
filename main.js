@@ -1,7 +1,7 @@
 import { Player } from './player.js';
 import { getRandomTeam } from './teams.js';
 import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary } from './ui.js';
-import { checkInjury, getRandomGoals, getRandomAssists, getRandomYellowCards, getRandomRedCards, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease, checkTrainingBoost, checkTransferInterest, showEventMessage } from './utils.js';
+import { checkInjury, getRandomGoals, getRandomAssists, getRandomYellowCards, getRandomRedCards, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease, checkTrainingBoost, checkTransferInterest, showEventMessage, adjustValueForSeason } from './utils.js';
 
 let player = new Player();
 
@@ -72,6 +72,7 @@ function stayTeam() {
     player.totalRedCards += redCards;
     player.passing += assists * 0.5;
     checkTransferInterest(player, goals, assists);
+    adjustValueForSeason(player, goals, assists, yellowCards, redCards);
 
     let historyColor = 'black';
     let ballonDorMessage = '';
@@ -131,6 +132,7 @@ function chooseTeam(buttonId) {
     player.totalRedCards += redCards;
     player.passing += assists * 0.5;
     checkTransferInterest(player, goals, assists);
+    adjustValueForSeason(player, goals, assists, yellowCards, redCards);
 
     let historyColor = 'black';
     let ballonDorMessage = '';

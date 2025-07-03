@@ -95,28 +95,34 @@ export class Player {
     checkTrophies() {
         if (Math.random() < 0.25) {
             this.leagueTitles++;
+            this.value += 2000000;
             showEventMessage('League Title Won!');
         }
 
         const internationalChance = Math.random();
         if (internationalChance < 0.01) {
             this.internationalCups += 3;
+            this.value += 10000000;
             showEventMessage('International Cup Treble!');
         } else if (internationalChance < 0.15) {
             this.internationalCups += 2;
+            this.value += 7000000;
             showEventMessage('International Cup Double!');
         } else if (internationalChance < 0.25) {
             this.internationalCups += 1;
+            this.value += 3000000;
             showEventMessage('International Cup Win!');
         }
 
         if (this.age % 4 === 0 && Math.random() < 0.01) {
             this.worldCups++;
+            this.value += 20000000;
             showEventMessage('World Cup Champion!');
         }
 
         if (this.age % 4 === 0 && Math.random() < 0.05) {
             this.continentalCups++;
+            this.value += 4000000;
             showEventMessage('Continental Cup Victory!');
         }
     }
