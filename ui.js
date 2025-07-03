@@ -14,7 +14,10 @@ export function updateCareerDetails(player) {
         Value: ${player.value.toLocaleString()} $<br>
         Total Goals: ${player.totalGoals} <br>
         Total Assists: ${player.totalAssists} <br>
-        Passing Skill: ${player.passing}
+        Yellow Cards: ${player.totalYellowCards} <br>
+        Red Cards: ${player.totalRedCards} <br>
+        Passing Skill: ${player.passing} <br>
+        Contract Years Left: ${player.contractYearsLeft}
     `;
 
     clubHistory.innerHTML = '';
@@ -56,7 +59,10 @@ export function showCareerSummary(player) {
         <p>Highest Value: ${player.highestValue.toLocaleString()} $</p>
         <p>Total Goals: ${player.totalGoals}</p>
         <p>Total Assists: ${player.totalAssists}</p>
+        <p>Yellow Cards: ${player.totalYellowCards}</p>
+        <p>Red Cards: ${player.totalRedCards}</p>
         <p>Passing Skill: ${player.passing}</p>
+        <p>Contract Years Left: ${player.contractYearsLeft}</p>
         <p>League Titles: ${player.leagueTitles}</p>
         <p>International Cups: ${player.internationalCups}</p>
         <p>World Cups: ${player.worldCups}</p>
