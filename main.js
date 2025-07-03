@@ -1,7 +1,8 @@
 import { Player } from './player.js';
 import { getRandomTeam } from './teams.js';
 import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary } from './ui.js';
-import { checkInjury, getGoalsForPosition, getAssistsForPosition, getPassingMultiplier, getRandomYellowCards, getRandomRedCards, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease, checkTrainingBoost, checkTransferInterest, showEventMessage, adjustValueForSeason } from './utils.js';
+import { checkInjury, getRandomGoals, getRandomAssists, getRandomYellowCards, getRandomRedCards, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease, checkTrainingBoost, checkTransferInterest, showEventMessage } from './utils.js';
+
 
 let player = new Player();
 
@@ -64,6 +65,7 @@ function stayTeam() {
     checkTrainingBoost(player);
     const goals = getGoalsForPosition(player.position);
     const assists = getAssistsForPosition(player.position);
+
     const yellowCards = getRandomYellowCards();
     const redCards = getRandomRedCards();
     player.totalGoals += goals;
@@ -71,6 +73,7 @@ function stayTeam() {
     player.totalYellowCards += yellowCards;
     player.totalRedCards += redCards;
     player.passing += assists * getPassingMultiplier(player.position);
+
     checkTransferInterest(player, goals, assists);
     adjustValueForSeason(player, goals, assists, yellowCards, redCards);
 
@@ -124,6 +127,7 @@ function chooseTeam(buttonId) {
     player.team = chosenTeam;
     const goals = getGoalsForPosition(player.position);
     const assists = getAssistsForPosition(player.position);
+
     const yellowCards = getRandomYellowCards();
     const redCards = getRandomRedCards();
     player.totalGoals += goals;
@@ -131,6 +135,7 @@ function chooseTeam(buttonId) {
     player.totalYellowCards += yellowCards;
     player.totalRedCards += redCards;
     player.passing += assists * getPassingMultiplier(player.position);
+
     checkTransferInterest(player, goals, assists);
     adjustValueForSeason(player, goals, assists, yellowCards, redCards);
 
