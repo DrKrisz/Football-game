@@ -1,7 +1,8 @@
 import { Player } from './player.js';
 import { getRandomTeam } from './teams.js';
 import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary } from './ui.js';
-import { checkInjury, getRandomGoals, getRandomAssists, getRandomYellowCards, getRandomRedCards, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease, checkTrainingBoost, checkTransferInterest, showEventMessage, adjustValueForSeason } from './utils.js';
+import { checkInjury, getRandomYellowCards, getRandomRedCards, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease, checkTrainingBoost, checkTransferInterest, showEventMessage } from './utils.js';
+
 
 let player = new Player();
 
@@ -31,6 +32,7 @@ function startCareer() {
     player.appearance = appearanceInput.value;
 
     player.team = getRandomTeam();
+    player.signNewContract();
     player.addClubHistory(player.age, player.team, player.value, 'Initial', 'Initial', 'black', '', 0, 0);
 
     if (!player.team) {
@@ -62,15 +64,17 @@ function stayTeam() {
 
     player.incrementAge();
     checkTrainingBoost(player);
-    const goals = getRandomGoals();
-    const assists = getRandomAssists();
+    const goals = getGoalsForPosition(player.position);
+    const assists = getAssistsForPosition(player.position);
+
     const yellowCards = getRandomYellowCards();
     const redCards = getRandomRedCards();
     player.totalGoals += goals;
     player.totalAssists += assists;
     player.totalYellowCards += yellowCards;
     player.totalRedCards += redCards;
-    player.passing += assists * 0.5;
+    player.passing += assists * getPassingMultiplier(player.position);
+
     checkTransferInterest(player, goals, assists);
     adjustValueForSeason(player, goals, assists, yellowCards, redCards);
 
@@ -122,15 +126,18 @@ function chooseTeam(buttonId) {
     checkTrainingBoost(player);
     const chosenTeam = player.nextTeams[buttonId === 'team1' ? 0 : 1];
     player.team = chosenTeam;
-    const goals = getRandomGoals();
-    const assists = getRandomAssists();
+    player.signNewContract();
+    const goals = getGoalsForPosition(player.position);
+    const assists = getAssistsForPosition(player.position);
+
     const yellowCards = getRandomYellowCards();
     const redCards = getRandomRedCards();
     player.totalGoals += goals;
     player.totalAssists += assists;
     player.totalYellowCards += yellowCards;
     player.totalRedCards += redCards;
-    player.passing += assists * 0.5;
+    player.passing += assists * getPassingMultiplier(player.position);
+
     checkTransferInterest(player, goals, assists);
     adjustValueForSeason(player, goals, assists, yellowCards, redCards);
 
