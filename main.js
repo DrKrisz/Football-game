@@ -3,6 +3,7 @@ import { getRandomTeam } from './teams.js';
 import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary } from './ui.js';
 import { checkInjury, getRandomGoals, getRandomAssists, getRandomYellowCards, getRandomRedCards, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease, checkTrainingBoost, checkTransferInterest, showEventMessage } from './utils.js';
 
+
 let player = new Player();
 
 document.getElementById('startCareer').addEventListener('click', startCareer);
@@ -62,16 +63,19 @@ function stayTeam() {
 
     player.incrementAge();
     checkTrainingBoost(player);
-    const goals = getRandomGoals();
-    const assists = getRandomAssists();
+    const goals = getGoalsForPosition(player.position);
+    const assists = getAssistsForPosition(player.position);
+
     const yellowCards = getRandomYellowCards();
     const redCards = getRandomRedCards();
     player.totalGoals += goals;
     player.totalAssists += assists;
     player.totalYellowCards += yellowCards;
     player.totalRedCards += redCards;
-    player.passing += assists * 0.5;
+    player.passing += assists * getPassingMultiplier(player.position);
+
     checkTransferInterest(player, goals, assists);
+    adjustValueForSeason(player, goals, assists, yellowCards, redCards);
 
     let historyColor = 'black';
     let ballonDorMessage = '';
@@ -121,16 +125,19 @@ function chooseTeam(buttonId) {
     checkTrainingBoost(player);
     const chosenTeam = player.nextTeams[buttonId === 'team1' ? 0 : 1];
     player.team = chosenTeam;
-    const goals = getRandomGoals();
-    const assists = getRandomAssists();
+    const goals = getGoalsForPosition(player.position);
+    const assists = getAssistsForPosition(player.position);
+
     const yellowCards = getRandomYellowCards();
     const redCards = getRandomRedCards();
     player.totalGoals += goals;
     player.totalAssists += assists;
     player.totalYellowCards += yellowCards;
     player.totalRedCards += redCards;
-    player.passing += assists * 0.5;
+    player.passing += assists * getPassingMultiplier(player.position);
+
     checkTransferInterest(player, goals, assists);
+    adjustValueForSeason(player, goals, assists, yellowCards, redCards);
 
     let historyColor = 'black';
     let ballonDorMessage = '';
