@@ -14,6 +14,8 @@ export class Player {
         this.highestValue = 100000;
         this.totalGoals = 0;
         this.totalAssists = 0;
+        this.totalYellowCards = 0;
+        this.totalRedCards = 0;
         this.clubHistory = [];
         this.nextTeams = [];
         this.retired = false;
@@ -119,12 +121,12 @@ export class Player {
         }
     }
 
-    addClubHistory(age, team, value, goals, assists, color, ballonDorMessage = '') {
+    addClubHistory(age, team, value, goals, assists, color, ballonDorMessage = '', yellowCards = 0, redCards = 0) {
         const p = document.createElement('p');
         if (goals === 'Injured' && assists === 'Injured') {
             p.innerText = `${age} yrs: ${team} - ${value.toLocaleString()} $ - Injured`;
         } else {
-            p.innerText = `${age} yrs: ${team} - ${value.toLocaleString()} $ - ${goals} goals - ${assists} assists${ballonDorMessage}`;
+            p.innerText = `${age} yrs: ${team} - ${value.toLocaleString()} $ - ${goals} goals - ${assists} assists - ${yellowCards} YC - ${redCards} RC${ballonDorMessage}`;
         }
         p.style.color = color;
         this.clubHistory.push(p);
