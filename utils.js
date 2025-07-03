@@ -245,3 +245,17 @@ export function checkTransferInterest(player, goals, assists) {
         player.transferOffer = false;
     }
 }
+
+export function getContractLengthForAge(age) {
+    if (age < 21) {
+        return Math.floor(Math.random() * 3) + 5; // 5-7 years
+    } else if (age < 26) {
+        return Math.floor(Math.random() * 3) + 4; // 4-6 years
+    } else if (age < 31) {
+        return Math.floor(Math.random() * 3) + 3; // 3-5 years
+    } else if (age < 35) {
+        return Math.floor(Math.random() * 2) + 2; // 2-3 years
+    } else {
+        return Math.floor(Math.random() * 2) + 1; // 1-2 years
+    }
+}

@@ -1,4 +1,4 @@
-import { getRandomValueChange, getRandomHighValueIncrease, getRandomHighValueDecrease, showEventMessage } from './utils.js';
+import { getRandomValueChange, getRandomHighValueIncrease, getRandomHighValueDecrease, showEventMessage, getContractLengthForAge } from './utils.js';
 import { showCareerSummary } from './ui.js';
 
 export class Player {
@@ -30,12 +30,17 @@ export class Player {
         this.passing = 50;
         this.trainingBoostYears = 0;
         this.transferOffer = false;
+        this.contractYearsLeft = 0;
     }
 
     incrementAge() {
         this.age++;
         this.totalYears++;
         this.prevValue = this.value;
+        this.contractYearsLeft--;
+        if (this.contractYearsLeft <= 0) {
+            this.signNewContract();
+        }
 
         if (this.trainingBoostYears > 0) {
             this.value += 1000000;
@@ -79,6 +84,10 @@ export class Player {
         this.age++;
         this.totalYears++;
         this.prevValue = this.value;
+        this.contractYearsLeft--;
+        if (this.contractYearsLeft <= 0) {
+            this.signNewContract();
+        }
         const valueDecrease = getRandomValueChange();
         this.value = Math.max(0, this.value - valueDecrease);
 
@@ -136,5 +145,10 @@ export class Player {
         }
         p.style.color = color;
         this.clubHistory.push(p);
+    }
+
+    signNewContract() {
+        this.contractYearsLeft = getContractLengthForAge(this.age);
+        showEventMessage(`Signed a ${this.contractYearsLeft}-year contract with ${this.team}`);
     }
 }
