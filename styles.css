@@ -7,7 +7,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #121212;
+    background-color: #0d0d0d;
     color: #ffffff;
 }
 
@@ -37,6 +37,12 @@ button {
     overflow: hidden; /* Hide overflow text */
     text-overflow: ellipsis; /* Add ellipsis to overflow text */
     text-align: center; /* Center align the text */
+}
+
+#startCareer {
+    padding: 15px;
+    width: 180px;
+    font-size: 1.1em;
 }
 
 button:hover {
