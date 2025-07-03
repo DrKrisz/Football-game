@@ -149,27 +149,6 @@ export function adjustValueForSeason(player, goals, assists, yellowCards, redCar
     }
 }
 
-export function getRandomYellowCards() {
-    const probability = Math.random();
-    if (probability < 0.6) {
-        return Math.floor(Math.random() * 3); // 0-2
-    } else if (probability < 0.9) {
-        return Math.floor(Math.random() * 4) + 3; // 3-6
-    } else {
-        return Math.floor(Math.random() * 5) + 7; // 7-11
-    }
-}
-
-export function getRandomRedCards() {
-    const chance = Math.random();
-    if (chance < 0.85) {
-        return 0;
-    } else if (chance < 0.95) {
-        return 1;
-    } else {
-        return 2;
-    }
-}
 
 export function getRandomBallonDorIncrease() {
     return 10000000 + Math.floor(Math.random() * 40000001);
