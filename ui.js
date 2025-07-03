@@ -12,6 +12,7 @@ export function updateCareerDetails(player) {
     careerDetails.innerHTML = `
         ${player.age} yrs: ${player.team}<br>
         Value: ${player.value.toLocaleString()} $<br>
+        Contract Years Left: ${player.contractYearsLeft}<br>
         Total Goals: ${player.totalGoals} <br>
         Total Assists: ${player.totalAssists} <br>
         Yellow Cards: ${player.totalYellowCards} <br>
@@ -61,6 +62,7 @@ export function showCareerSummary(player) {
         <p>Yellow Cards: ${player.totalYellowCards}</p>
         <p>Red Cards: ${player.totalRedCards}</p>
         <p>Passing Skill: ${player.passing}</p>
+        <p>Contract Years Left: ${player.contractYearsLeft}</p>
         <p>League Titles: ${player.leagueTitles}</p>
         <p>International Cups: ${player.internationalCups}</p>
         <p>World Cups: ${player.worldCups}</p>

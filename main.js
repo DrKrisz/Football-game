@@ -32,6 +32,7 @@ function startCareer() {
     player.appearance = appearanceInput.value;
 
     player.team = getRandomTeam();
+    player.signNewContract();
     player.addClubHistory(player.age, player.team, player.value, 'Initial', 'Initial', 'black', '', 0, 0);
 
     if (!player.team) {
@@ -125,6 +126,7 @@ function chooseTeam(buttonId) {
     checkTrainingBoost(player);
     const chosenTeam = player.nextTeams[buttonId === 'team1' ? 0 : 1];
     player.team = chosenTeam;
+    player.signNewContract();
     const goals = getGoalsForPosition(player.position);
     const assists = getAssistsForPosition(player.position);
 
