@@ -163,7 +163,8 @@ export function closePopup() {
 }
 
 export function calculatePerformance(player) {
-    return ((player.totalGoals + player.totalAssists + (player.leagueTitles + player.internationalCups + player.worldCups + player.continentalCups) * 10) / player.totalYears).toFixed(2);
+    const years = Math.max(1, player.totalYears);
+    return ((player.totalGoals + player.totalAssists + (player.leagueTitles + player.internationalCups + player.worldCups + player.continentalCups) * 10) / years).toFixed(2);
 }
 
 export function getContinentalCupName(origin) {

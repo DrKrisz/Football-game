@@ -17,7 +17,7 @@ export function updateCareerDetails(player) {
         Total Assists: ${player.totalAssists} <br>
         Yellow Cards: ${player.totalYellowCards} <br>
         Red Cards: ${player.totalRedCards} <br>
-        Passing Skill: ${player.passing}
+        Passing Skill: ${player.passing.toFixed(1)}
     `;
 
     clubHistory.innerHTML = '';
@@ -34,11 +34,21 @@ export function updateRandomTeamButtons(player) {
         return;
     }
     
-    if (player.transferOffer) {
-        player.nextTeams = [getRandomBigTeam(), getRandomBigTeam()];
-    } else {
-        player.nextTeams = [getRandomTeam(), getRandomTeam()];
-    }
+    const pick = player.transferOffer ? getRandomBigTeam : getRandomTeam;
+
+    const pickDifferent = (...exclude) => {
+        let candidate = pick();
+        let safety = 25;
+        while (exclude.includes(candidate) && safety-- > 0) {
+            candidate = pick();
+        }
+        return candidate;
+    };
+
+    const first = pickDifferent(player.team);
+    const second = pickDifferent(player.team, first);
+
+    player.nextTeams = [first, second];
     team1Button.innerText = `Go to ${player.nextTeams[0]}`;
     team2Button.innerText = `Go to ${player.nextTeams[1]}`;
 }
@@ -61,7 +71,7 @@ export function showCareerSummary(player) {
         <p>Total Assists: ${player.totalAssists}</p>
         <p>Yellow Cards: ${player.totalYellowCards}</p>
         <p>Red Cards: ${player.totalRedCards}</p>
-        <p>Passing Skill: ${player.passing}</p>
+        <p>Passing Skill: ${player.passing.toFixed(1)}</p>
         <p>Contract Years Left: ${player.contractYearsLeft}</p>
         <p>League Titles: ${player.leagueTitles}</p>
         <p>International Cups: ${player.internationalCups}</p>

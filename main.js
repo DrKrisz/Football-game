@@ -1,7 +1,21 @@
 import { Player } from './player.js';
 import { getRandomTeam } from './teams.js';
 import { updateCareerDetails, updateRandomTeamButtons, scrollToBottom, showCareerSummary } from './ui.js';
-import { checkInjury, getRandomYellowCards, getRandomRedCards, showPopup, closePopup, getRandomValueChange, getRandomBallonDorIncrease, checkTrainingBoost, checkTransferInterest, showEventMessage } from './utils.js';
+import {
+    checkInjury,
+    getRandomYellowCards,
+    getRandomRedCards,
+    showPopup,
+    closePopup,
+    getRandomBallonDorIncrease,
+    checkTrainingBoost,
+    checkTransferInterest,
+    showEventMessage,
+    getGoalsForPosition,
+    getAssistsForPosition,
+    getPassingMultiplier,
+    adjustValueForSeason
+} from './utils.js';
 
 
 let player = new Player();
@@ -33,7 +47,7 @@ function startCareer() {
 
     player.team = getRandomTeam();
     player.signNewContract();
-    player.addClubHistory(player.age, player.team, player.value, 'Initial', 'Initial', 'black', '', 0, 0);
+    player.addClubHistory(player.age, player.team, player.value, 'Initial', 'Initial', '#e0e0e0', '', 0, 0);
 
     if (!player.team) {
         showPopup("Error: No team found for the selected origin.");
@@ -78,7 +92,7 @@ function stayTeam() {
     checkTransferInterest(player, goals, assists);
     adjustValueForSeason(player, goals, assists, yellowCards, redCards);
 
-    let historyColor = 'black';
+    let historyColor = '#e0e0e0';
     let ballonDorMessage = '';
     if (goals > 30 || assists > 15) {
         historyColor = 'yellow';
@@ -101,7 +115,7 @@ function stayTeam() {
 function nextYear() {
     player.injuryDuration--;
     player.incrementAgeDuringInjury();
-    player.addClubHistory(player.age, player.team, player.value, 'Injured', 'Injured', 'black', '', 0, 0);
+    player.addClubHistory(player.age, player.team, player.value, 'Injured', 'Injured', '#e0e0e0', '', 0, 0);
 
     if (player.injuryDuration <= 0) {
         player.injured = false;
@@ -141,7 +155,7 @@ function chooseTeam(buttonId) {
     checkTransferInterest(player, goals, assists);
     adjustValueForSeason(player, goals, assists, yellowCards, redCards);
 
-    let historyColor = 'black';
+    let historyColor = '#e0e0e0';
     let ballonDorMessage = '';
     if (goals > 30 || assists > 15) {
         historyColor = 'yellow';
@@ -162,6 +176,7 @@ function chooseTeam(buttonId) {
 }
 
 function retireEarly() {
+    player.retired = true;
     showCareerSummary(player);
 }
 
@@ -171,12 +186,14 @@ export function startNewCareer() {
     document.getElementById('page2').style.display = 'none';
     document.getElementById('page2').innerHTML = originalPage2Content;
 
+    // Only page2 was rewritten, so only page2 buttons need new listeners.
+    // The popup lives outside page2 and its listener from the initial bind
+    // is still attached — re-attaching would stack duplicates each restart.
     document.getElementById('stayTeam').addEventListener('click', handleStayOrNextYear);
     document.getElementById('team1').addEventListener('click', () => chooseTeam('team1'));
     document.getElementById('team2').addEventListener('click', () => chooseTeam('team2'));
     document.getElementById('restartCareer').addEventListener('click', startNewCareer);
     document.getElementById('retireEarly').addEventListener('click', retireEarly);
-    document.getElementById('closePopup').addEventListener('click', closePopup);
 }
 
 window.startNewCareer = startNewCareer;

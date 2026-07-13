@@ -1,12 +1,17 @@
+/* ---- base ---- */
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    justify-content: flex-start;
+    min-height: 100vh;
     background-color: #0d0d0d;
     color: #ffffff;
 }
@@ -15,147 +20,224 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    max-width: 1100px;
 }
 
-label, select, input, button {
-    margin: 10px;
-    color: #ffffff;
+h1 {
+    margin-top: 0;
+    text-align: center;
 }
 
-#careerDetails {
-    margin-bottom: 20px;
+/* ---- shared card look ---- */
+.card,
+#careerDetails,
+#clubHistory {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
 }
 
-button {
-    padding: 10px;
-    background-color: #1e88e5;
-    color: #ffffff;
-    border: none;
+/* ---- page 1: player creation form ---- */
+#page1 {
+    margin-top: 40px;
+}
+
+#page1 .card {
+    padding: 24px 28px;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+}
+
+#page1 h1 {
+    font-size: 1.5em;
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #999;
+    font-size: 0.9em;
+    margin: 0 0 20px 0;
+}
+
+#page1 label {
+    align-self: flex-start;
+    margin: 12px 0 4px 0;
+    font-size: 0.9em;
+    color: #bbb;
+}
+
+#page1 input[type="text"],
+#page1 select {
+    width: 100%;
+    padding: 9px 10px;
+    border-radius: 4px;
+    margin: 0;
+}
+
+#page1 input[type="color"] {
+    width: 60px;
+    height: 36px;
+    padding: 2px;
+    border-radius: 4px;
+    align-self: flex-start;
+    margin: 0;
     cursor: pointer;
-    width: 150px; /* Fixed width to handle longer names */
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Add ellipsis to overflow text */
-    text-align: center; /* Center align the text */
 }
 
 #startCareer {
-    padding: 15px;
-    width: 180px;
-    font-size: 1.1em;
+    margin-top: 22px;
+    padding: 12px;
+    width: 100%;
+    font-size: 1.05em;
+}
+
+/* ---- inputs ---- */
+select,
+input[type="color"],
+input[type="text"] {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border: 1px solid #555;
+    font-family: inherit;
+}
+
+select:focus,
+input[type="text"]:focus {
+    outline: none;
+    border-color: #1e88e5;
+}
+
+/* ---- buttons ---- */
+button {
+    padding: 10px 14px;
+    background-color: #1e88e5;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.95em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    transition: background-color 0.15s ease-in-out;
 }
 
 button:hover {
     background-color: #1565c0;
 }
 
-select, input[type="color"], input[type="text"] {
-    background-color: #424242;
-    color: #ffffff;
-    border: 1px solid #ffffff;
+button:active {
+    background-color: #0d47a1;
 }
 
-label {
-    color: #ffffff;
-}
-
-#clubHistory {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #424242;
-    border: 1px solid #ffffff;
-    width: 1000px;
-    height: 400px;
-    max-height: 400px;
-    overflow-y: auto;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease-in-out;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: #424242 #ffffff;
-}
-
-#clubHistory p {
-    margin-right: 10px;
-    white-space: nowrap; /* Prevent text from wrapping */
-    text-overflow: ellipsis; /* Add ellipsis to overflow text */
-}
-
+/* ---- page 2: career view ---- */
 #page2 {
+    padding-top: 20px;
+    padding-bottom: 40px;
     text-align: center;
-}
-
-#page2 button {
-    margin: 10px;
 }
 
 #page2 h1 {
     margin-bottom: 20px;
-    text-align: center;
 }
 
 #careerDetails {
-    margin-bottom: 20px;
+    padding: 18px 26px;
+    margin-bottom: 18px;
+    line-height: 1.7;
+    text-align: left;
+    min-width: 280px;
+    max-width: 600px;
+}
+
+#careerDetails br { line-height: 1.7; }
+
+#clubHistory {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: stretch;
+    gap: 6px;
+    padding: 12px;
+    width: 100%;
+    max-width: 900px;
+    height: 380px;
+    max-height: 380px;
+    overflow-x: hidden;
+    overflow-y: scroll; /* always show track so the box doesn't jump */
+    text-align: left;
+    scrollbar-width: thin;
+    scrollbar-color: #555 #1a1a1a;
+    margin-bottom: 18px;
 }
 
-/* Media query for iPhone 15 Pro dimensions */
-@media screen and (max-width: 393px) and (max-height: 852px) {
-    body {
-        font-size: 14px;
-    }
-
-    button {
-        width: 50%; /* Full width for buttons */
-        margin: 5px;
-    }
-
-    #clubHistory {
-        width: 90%; /* Adjust width to fit within the screen */
-        height: 300px; /* Adjust height to fit within the screen */
-    }
-
-    #page2 {
-        padding: 10px;
-    }
-
-    #careerDetails {
-        margin-bottom: 10px;
-        padding: 10px;
-    }
-
-    #page1 {
-        transform: translateY(-50px);
-    }
-
-    #page1 h1 {
-        color: #ffffff;
-        font-size: 24px;
-        transform: translateY(-100px);
-    }
-
-    #startCareer {
-        transform: translateY(100px);
-    }
+/* Chrome / Edge / Safari — Firefox uses scrollbar-color above */
+#clubHistory::-webkit-scrollbar {
+    width: 10px;
+}
+#clubHistory::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 4px;
+}
+#clubHistory::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+    border: 2px solid #1a1a1a;
+}
+#clubHistory::-webkit-scrollbar-thumb:hover {
+    background: #777;
 }
 
-/* Popup styles */
+#clubHistory p {
+    flex: 0 0 auto; /* KEY FIX: prevents flex from squishing rows when content exceeds 380px */
+    margin: 0;
+    padding: 8px 12px;
+    background-color: #242424;
+    border-radius: 4px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+/* action row on page 2 */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.actions button {
+    flex: 1 1 auto;
+    min-width: 140px;
+    max-width: 220px;
+    padding: 11px 14px;
+}
+
+/* career summary (rendered by showCareerSummary) */
+#page2 h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+/* ---- popup ---- */
 .popup {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -163,33 +245,35 @@ label {
 }
 
 .popup-content {
-    background-color: #000; /* Black background color */
-    padding: 20px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    padding: 28px 24px;
     border-radius: 10px;
     text-align: center;
     width: 80%;
     max-width: 500px;
     position: relative;
-    color: #ffffff; /* White text color */
+    color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .close {
     position: absolute;
-    top: 10px;
-    right: 20px;
+    top: 6px;
+    right: 14px;
     color: #aaa;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
     cursor: pointer;
+    line-height: 1;
 }
 
 .close:hover,
 .close:focus {
     color: white;
-    text-decoration: none;
-    cursor: pointer;
 }
 
+/* ---- event message ---- */
 .event-message {
     position: fixed;
     bottom: 20px;
@@ -199,7 +283,7 @@ label {
     color: #fff;
     padding: 10px 20px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     opacity: 1;
     transition: opacity 1s;
     z-index: 1000;
@@ -207,4 +291,15 @@ label {
 
 .event-message.fade-out {
     opacity: 0;
+}
+
+/* ---- mobile ---- */
+@media screen and (max-width: 500px) {
+    body { font-size: 14px; padding: 10px; }
+    #page1 { margin-top: 10px; }
+    #page1 .card { padding: 18px 20px; }
+    #careerDetails { padding: 14px 16px; }
+    #clubHistory { height: 300px; max-height: 300px; }
+    #clubHistory p { font-size: 13px; padding: 7px 10px; }
+    .actions button { min-width: 45%; max-width: 100%; }
 }
